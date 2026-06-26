@@ -1,0 +1,53 @@
+# Maven / Java
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+.mvn/wrapper/
+.metadata/
+*.class
+.classpath
+.project
+.settings/
+.springBeans
+.factorypath
+bin/
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+.next/
+
+# IDEs and Editors
+.idea/
+*.iml
+*.iws
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+.project
+.classpath
+.settings/
+
+# Docker/Databases
+database-data/
+pgdata/
+redisdata/
+docker/data/
+*.db

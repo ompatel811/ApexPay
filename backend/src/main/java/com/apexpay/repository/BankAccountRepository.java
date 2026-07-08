@@ -15,4 +15,5 @@ import java.util.UUID;
 public interface BankAccountRepository extends JpaRepository<BankAccount, UUID> {
     List<BankAccount> findByUserId(UUID userId);
     Optional<BankAccount> findByUserIdAndIsPrimaryTrue(UUID userId);
+    boolean existsByUserIdAndAccountNumber(UUID userId, String accountNumber);
 }

@@ -54,4 +54,12 @@ public class BankAccount extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "verification_status", nullable = false)
     private VerificationStatus verificationStatus;
+
+    @Size(max = 150, message = "Branch name must be less than 150 characters")
+    @Column(name = "branch")
+    private String branch;
+
+    @Size(max = 100, message = "Masked account number must be less than 100 characters")
+    @Column(name = "masked_account_number")
+    private String maskedAccountNumber;
 }

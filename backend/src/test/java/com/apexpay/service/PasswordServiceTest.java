@@ -54,7 +54,7 @@ class PasswordServiceTest {
     void validatePasswordStrength_ShouldThrowException_WhenPasswordIsWeak() {
         assertThrows(BusinessException.class, () -> passwordService.validatePasswordStrength("weak"));
         assertThrows(BusinessException.class, () -> passwordService.validatePasswordStrength("NoDigitNoSpecialPass"));
-        assertThrows(BusinessException.class, () -> passwordService.validatePasswordStrength("Nocaps1!"));
+        assertThrows(BusinessException.class, () -> passwordService.validatePasswordStrength("nocaps1!"));
     }
 
     @Test

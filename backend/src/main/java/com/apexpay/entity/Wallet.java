@@ -45,9 +45,32 @@ public class Wallet extends BaseEntity {
     @Column(name = "wallet_status", nullable = false)
     private WalletStatus walletStatus;
 
+    @NotNull(message = "Daily transfer limit is required")
+    @DecimalMin(value = "0.0", message = "Limit cannot be negative")
+    @Column(name = "daily_transfer_limit", nullable = false, precision = 15, scale = 4)
+    private BigDecimal dailyTransferLimit = new BigDecimal("1000.0000");
+
+    @NotNull(message = "Daily withdrawal limit is required")
+    @DecimalMin(value = "0.0", message = "Limit cannot be negative")
+    @Column(name = "daily_withdrawal_limit", nullable = false, precision = 15, scale = 4)
+    private BigDecimal dailyWithdrawalLimit = new BigDecimal("500.0000");
+
+    @NotNull(message = "Monthly transfer limit is required")
+    @DecimalMin(value = "0.0", message = "Limit cannot be negative")
+    @Column(name = "monthly_transfer_limit", nullable = false, precision = 15, scale = 4)
+    private BigDecimal monthlyTransferLimit = new BigDecimal("5000.0000");
+
+    @NotNull(message = "Monthly withdrawal limit is required")
+    @DecimalMin(value = "0.0", message = "Limit cannot be negative")
+    @Column(name = "monthly_withdrawal_limit", nullable = false, precision = 15, scale = 4)
+    private BigDecimal monthlyWithdrawalLimit = new BigDecimal("2500.0000");
+
     @OneToMany(mappedBy = "senderWallet", fetch = FetchType.LAZY)
     private List<Transaction> sentTransactions = new ArrayList<>();
 
     @OneToMany(mappedBy = "receiverWallet", fetch = FetchType.LAZY)
     private List<Transaction> receivedTransactions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<WalletLedger> ledgerEntries = new ArrayList<>();
 }

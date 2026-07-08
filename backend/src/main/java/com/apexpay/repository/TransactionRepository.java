@@ -20,4 +20,10 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
 
     @Query("SELECT t FROM Transaction t WHERE t.senderWallet.id = :walletId OR t.receiverWallet.id = :walletId")
     Page<Transaction> findByWalletId(@Param("walletId") UUID walletId, Pageable pageable);
+
+    @Query("SELECT t FROM Transaction t WHERE (t.senderWallet.user.id = :userId OR t.receiverWallet.user.id = :userId) AND t.paymentStatus = 'SUCCESS'")
+    java.util.List<Transaction> findSuccessTransactionsByUserId(@Param("userId") UUID userId);
+
+    @Query("SELECT t FROM Transaction t WHERE t.senderWallet.user.id = :userId OR t.receiverWallet.user.id = :userId")
+    java.util.List<Transaction> findAllTransactionsByUserId(@Param("userId") UUID userId);
 }

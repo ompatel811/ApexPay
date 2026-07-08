@@ -13,4 +13,6 @@ import java.util.UUID;
 @Repository
 public interface QRCodeRepository extends JpaRepository<QRCode, UUID> {
     List<QRCode> findByUserId(UUID userId);
+    List<QRCode> findByUserIdOrderByCreatedAtDesc(UUID userId);
+    java.util.Optional<QRCode> findByReferenceNumber(String referenceNumber);
 }

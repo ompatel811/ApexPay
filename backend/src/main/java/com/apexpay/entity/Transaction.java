@@ -53,6 +53,11 @@ public class Transaction extends BaseEntity {
     @Column(name = "payment_status", nullable = false)
     private TransactionStatus paymentStatus;
 
+    @NotBlank(message = "Transaction category is required")
+    @Size(max = 50, message = "Category must be less than 50 characters")
+    @Column(name = "category", nullable = false)
+    private String category = "OTHER";
+
     @Size(max = 255, message = "Remarks must be less than 255 characters")
     @Column(name = "remarks")
     private String remarks;

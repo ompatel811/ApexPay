@@ -11,4 +11,9 @@ import java.util.UUID;
 public interface UserService {
     UserProfileResponse getProfile(UUID userId);
     UserProfileResponse updateProfile(UUID userId, UpdateProfileRequest request);
+    UserProfileResponse uploadProfilePhoto(UUID userId, org.springframework.web.multipart.MultipartFile file);
+    UserProfileResponse removeProfilePhoto(UUID userId);
+    java.util.List<com.apexpay.dto.AuditLogResponse> getUserActivity(UUID userId);
+    java.util.List<com.apexpay.dto.DeviceSessionResponse> getUserSessions(UUID userId);
+    void revokeSession(UUID userId, UUID sessionId);
 }

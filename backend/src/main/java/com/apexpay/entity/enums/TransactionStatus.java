@@ -5,7 +5,9 @@ package com.apexpay.entity.enums;
  */
 public enum TransactionStatus {
     PENDING,
+    PROCESSING,
     SUCCESS,
     FAILED,
+    CANCELLED,
     REVERSED
 }

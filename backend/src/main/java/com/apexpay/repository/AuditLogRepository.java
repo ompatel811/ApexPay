@@ -13,5 +13,6 @@ import java.util.UUID;
 @Repository
 public interface AuditLogRepository extends JpaRepository<AuditLog, UUID> {
     List<AuditLog> findByPerformedBy(String performedBy);
+    List<AuditLog> findByPerformedByOrderByTimestampDesc(String performedBy);
     List<AuditLog> findByEntityNameAndEntityId(String entityName, String entityId);
 }

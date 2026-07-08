@@ -1,4 +1,4 @@
-import axiosClient from './axiosClient';
+import { api as axiosClient } from './api';
 
 export interface AnalyticsDashboard {
   currentBalance: number;

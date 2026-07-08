@@ -254,7 +254,7 @@ export default function AnalyticsDashboard() {
                   </Pie>
                   <Tooltip 
                     contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '12px', fontSize: '11px' }}
-                    formatter={(val: number) => [`$${val.toFixed(2)}`, 'Spent']}
+                    formatter={(val: any) => [`$${Number(val).toFixed(2)}`, 'Spent']}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -352,8 +352,8 @@ export default function AnalyticsDashboard() {
               </div>
               <div className="text-right">
                 {(() => {
-                  const savings = dashboard.monthlyIncome.subtract(dashboard.monthlyExpense);
-                  const isPositive = savings.compareTo(BigDecimal_Zero()) >= 0;
+                  const savings = dashboard.monthlyIncome - dashboard.monthlyExpense;
+                  const isPositive = savings >= 0;
                   return (
                     <>
                       <span className={`text-xs font-extrabold ${isPositive ? 'text-emerald-400' : 'text-rose-400'}`}>
@@ -417,22 +417,4 @@ export default function AnalyticsDashboard() {
   );
 }
 
-function BigDecimal_Zero() {
-  return new BigDecimalClass('0.00');
-}
 
-class BigDecimalClass {
-  private value: number;
-  constructor(v: string) {
-    this.value = parseFloat(v);
-  }
-  compareTo(other: BigDecimalClass): number {
-    return this.value - other.value;
-  }
-  toFixed(digits: number): string {
-    return this.value.toFixed(digits);
-  }
-  subtract(other: BigDecimalClass): BigDecimalClass {
-    return new BigDecimalClass((this.value - other.value).toString());
-  }
-}

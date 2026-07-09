@@ -6,7 +6,6 @@ import com.apexpay.service.PaymentService;
 import com.apexpay.service.ReceiptService;
 import com.apexpay.service.TransactionService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

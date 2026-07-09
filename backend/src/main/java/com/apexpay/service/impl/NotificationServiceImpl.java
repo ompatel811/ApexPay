@@ -1,5 +1,15 @@
 package com.apexpay.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.apexpay.dto.NotificationResponse;
 import com.apexpay.entity.Notification;
 import com.apexpay.entity.User;
@@ -9,19 +19,12 @@ import com.apexpay.exception.ResourceNotFoundException;
 import com.apexpay.repository.NotificationRepository;
 import com.apexpay.service.EmailService;
 import com.apexpay.service.NotificationService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@SuppressWarnings({"null", "unused"})
 public class NotificationServiceImpl implements NotificationService {
 
     private final NotificationRepository notificationRepository;

@@ -1,6 +1,36 @@
 package com.apexpay.service;
 
-import com.apexpay.dto.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.apexpay.dto.CreateUpiRequest;
+import com.apexpay.dto.RequestMoneyRequest;
+import com.apexpay.dto.SendMoneyRequest;
+import com.apexpay.dto.SendMoneyResponse;
+import com.apexpay.dto.UpiPayRequest;
+import com.apexpay.dto.UpiRequestResponse;
+import com.apexpay.dto.UpiResponse;
 import com.apexpay.entity.BankAccount;
 import com.apexpay.entity.UpiId;
 import com.apexpay.entity.UpiRequest;
@@ -13,26 +43,9 @@ import com.apexpay.repository.UpiIdRepository;
 import com.apexpay.repository.UpiRequestRepository;
 import com.apexpay.repository.UserRepository;
 import com.apexpay.service.impl.UpiServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings({"unused", "null"})
 public class UpiServiceTest {
 
     @Mock

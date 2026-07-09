@@ -1,30 +1,27 @@
 package com.apexpay.service;
 
-import com.apexpay.entity.User;
-import com.apexpay.entity.Wallet;
-import com.apexpay.entity.enums.AccountStatus;
-import com.apexpay.entity.enums.TransactionStatus;
-import com.apexpay.entity.enums.TransactionType;
-import com.apexpay.entity.enums.WalletStatus;
-import com.apexpay.exception.BusinessException;
-import com.apexpay.repository.UserRepository;
-import com.apexpay.repository.WalletRepository;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
+import com.apexpay.entity.User;
+import com.apexpay.entity.Wallet;
+import com.apexpay.entity.enums.AccountStatus;
+import com.apexpay.entity.enums.WalletStatus;
+import com.apexpay.repository.UserRepository;
+import com.apexpay.repository.WalletRepository;
 
 @SpringBootTest
+@SuppressWarnings({"unused", "null"})
 public class PaymentTransactionRollbackTest {
 
     @Autowired

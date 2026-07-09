@@ -1,36 +1,37 @@
 package com.apexpay.service;
 
-import com.apexpay.dto.SendMoneyRequest;
-import com.apexpay.dto.SendMoneyResponse;
-import com.apexpay.entity.User;
-import com.apexpay.entity.Wallet;
-import com.apexpay.entity.enums.AccountStatus;
-import com.apexpay.entity.enums.WalletStatus;
-import com.apexpay.exception.BusinessException;
-import com.apexpay.exception.ResourceNotFoundException;
-import com.apexpay.repository.IdempotencyKeyRepository;
-import com.apexpay.repository.UserRepository;
-import com.apexpay.repository.WalletLedgerRepository;
-import com.apexpay.repository.WalletRepository;
-import com.apexpay.repository.UpiIdRepository;
-import com.apexpay.service.NotificationService;
-import com.apexpay.service.impl.PaymentServiceImpl;
-import com.apexpay.service.impl.ValidationServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
+import org.mockito.Mock;
+import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
 
+import com.apexpay.dto.SendMoneyRequest;
+import com.apexpay.entity.User;
+import com.apexpay.entity.Wallet;
+import com.apexpay.entity.enums.AccountStatus;
+import com.apexpay.entity.enums.WalletStatus;
+import com.apexpay.exception.BusinessException;
+import com.apexpay.repository.IdempotencyKeyRepository;
+import com.apexpay.repository.UpiIdRepository;
+import com.apexpay.repository.UserRepository;
+import com.apexpay.repository.WalletLedgerRepository;
+import com.apexpay.repository.WalletRepository;
+import com.apexpay.service.impl.PaymentServiceImpl;
+import com.apexpay.service.impl.ValidationServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@SuppressWarnings({"unused", "null"})
 public class PaymentServiceTest {
 
     @Mock

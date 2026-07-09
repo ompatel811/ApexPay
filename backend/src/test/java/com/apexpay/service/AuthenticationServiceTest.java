@@ -1,5 +1,23 @@
 package com.apexpay.service;
 
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import com.apexpay.dto.RegisterRequest;
 import com.apexpay.dto.RegisterResponse;
 import com.apexpay.entity.Role;
@@ -10,18 +28,9 @@ import com.apexpay.exception.DuplicateUserException;
 import com.apexpay.repository.UserRepository;
 import com.apexpay.repository.WalletRepository;
 import com.apexpay.service.impl.AuthenticationServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-
+@ExtendWith(MockitoExtension.class)
+@SuppressWarnings({"null", "unused"})
 class AuthenticationServiceTest {
 
     @Mock
@@ -43,6 +52,7 @@ class AuthenticationServiceTest {
     private AuthenticationServiceImpl authenticationService;
 
     @BeforeEach
+    @SuppressWarnings("unused")
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }

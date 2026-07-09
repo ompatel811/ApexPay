@@ -1,33 +1,37 @@
 package com.apexpay.service.impl;
 
+import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.apexpay.dto.AccountStatementResponse;
 import com.apexpay.dto.TransactionStatementItem;
 import com.apexpay.entity.StatementHistory;
 import com.apexpay.entity.Transaction;
 import com.apexpay.entity.User;
 import com.apexpay.entity.Wallet;
-import com.apexpay.entity.enums.TransactionStatus;
 import com.apexpay.exception.ResourceNotFoundException;
 import com.apexpay.repository.StatementHistoryRepository;
 import com.apexpay.repository.TransactionRepository;
 import com.apexpay.repository.UserRepository;
 import com.apexpay.repository.WalletRepository;
-import com.apexpay.service.ReportService;
 import com.apexpay.service.AuditService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.apexpay.service.ReportService;
 
-import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@SuppressWarnings({"null", "unused"})
 public class ReportServiceImpl implements ReportService {
 
     private final TransactionRepository transactionRepository;

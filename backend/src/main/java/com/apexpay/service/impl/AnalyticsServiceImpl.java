@@ -1,6 +1,31 @@
 package com.apexpay.service.impl;
 
-import com.apexpay.dto.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.TextStyle;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.apexpay.dto.AnalyticsDashboardResponse;
+import com.apexpay.dto.CategorySpendingItem;
+import com.apexpay.dto.CategoryUpdateResponse;
+import com.apexpay.dto.IncomeAnalyticsResponse;
+import com.apexpay.dto.IncomeSourceItem;
+import com.apexpay.dto.SpendingAnalyticsResponse;
+import com.apexpay.dto.TrendItem;
+import com.apexpay.dto.TrendsResponse;
 import com.apexpay.entity.Transaction;
 import com.apexpay.entity.Wallet;
 import com.apexpay.entity.enums.TransactionStatus;
@@ -10,22 +35,12 @@ import com.apexpay.repository.TransactionRepository;
 import com.apexpay.repository.UpiRequestRepository;
 import com.apexpay.repository.WalletRepository;
 import com.apexpay.service.AnalyticsService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.TextStyle;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@SuppressWarnings({"null", "unused"})
 public class AnalyticsServiceImpl implements AnalyticsService {
 
     private final TransactionRepository transactionRepository;

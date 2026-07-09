@@ -1,17 +1,18 @@
 package com.apexpay.security;
 
-import com.apexpay.entity.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import java.util.Collection;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Objects;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import com.apexpay.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 /**
  * Custom UserDetails implementation representing the authenticated UserPrincipal.

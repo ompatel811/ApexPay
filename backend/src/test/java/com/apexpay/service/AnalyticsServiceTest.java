@@ -1,24 +1,5 @@
 package com.apexpay.service;
 
-import com.apexpay.dto.AnalyticsDashboardResponse;
-import com.apexpay.dto.IncomeAnalyticsResponse;
-import com.apexpay.dto.SpendingAnalyticsResponse;
-import com.apexpay.entity.Transaction;
-import com.apexpay.entity.User;
-import com.apexpay.entity.Wallet;
-import com.apexpay.entity.enums.TransactionStatus;
-import com.apexpay.entity.enums.TransactionType;
-import com.apexpay.repository.TransactionRepository;
-import com.apexpay.repository.UpiRequestRepository;
-import com.apexpay.repository.WalletRepository;
-import com.apexpay.service.impl.AnalyticsServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -26,8 +7,26 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.apexpay.dto.AnalyticsDashboardResponse;
+import com.apexpay.dto.SpendingAnalyticsResponse;
+import com.apexpay.entity.Transaction;
+import com.apexpay.entity.User;
+import com.apexpay.entity.Wallet;
+import com.apexpay.entity.enums.TransactionStatus;
+import com.apexpay.repository.TransactionRepository;
+import com.apexpay.repository.UpiRequestRepository;
+import com.apexpay.repository.WalletRepository;
+import com.apexpay.service.impl.AnalyticsServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class AnalyticsServiceTest {
@@ -52,6 +51,7 @@ public class AnalyticsServiceTest {
     private Wallet otherWallet;
 
     @BeforeEach
+    @SuppressWarnings("unused")
     void setUp() {
         userId = UUID.randomUUID();
         user = new User();

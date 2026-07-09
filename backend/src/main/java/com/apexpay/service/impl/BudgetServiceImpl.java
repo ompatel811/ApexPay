@@ -1,5 +1,19 @@
 package com.apexpay.service.impl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.apexpay.dto.BudgetRequest;
 import com.apexpay.dto.BudgetResponse;
 import com.apexpay.dto.FinancialGoalRequest;
@@ -14,23 +28,11 @@ import com.apexpay.exception.ResourceNotFoundException;
 import com.apexpay.repository.BudgetRepository;
 import com.apexpay.repository.FinancialGoalRepository;
 import com.apexpay.repository.UserRepository;
+import com.apexpay.service.AuditService;
 import com.apexpay.service.BudgetService;
 import com.apexpay.service.NotificationService;
-import com.apexpay.service.AuditService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
@@ -55,8 +57,7 @@ public class BudgetServiceImpl implements BudgetService {
         this.auditService = auditService;
     }
 
-    @Override
-    @Transactional
+    @Override    @SuppressWarnings("null")    @Transactional
     public BudgetResponse createBudget(UUID userId, BudgetRequest request) {
         log.info("Creating budget for user: {}, Category: {}, Month: {}", userId, request.category(), request.month());
         

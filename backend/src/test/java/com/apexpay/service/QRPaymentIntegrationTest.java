@@ -1,5 +1,16 @@
 package com.apexpay.service;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import com.apexpay.dto.GenerateQRCodeRequest;
 import com.apexpay.dto.GenerateQRCodeResponse;
 import com.apexpay.dto.QRPaymentRequest;
@@ -9,22 +20,12 @@ import com.apexpay.entity.User;
 import com.apexpay.entity.Wallet;
 import com.apexpay.entity.enums.AccountStatus;
 import com.apexpay.entity.enums.WalletStatus;
-import com.apexpay.exception.BusinessException;
 import com.apexpay.repository.QRCodeRepository;
 import com.apexpay.repository.UserRepository;
 import com.apexpay.repository.WalletRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@SuppressWarnings("null")
 public class QRPaymentIntegrationTest {
 
     @Autowired
@@ -48,6 +49,7 @@ public class QRPaymentIntegrationTest {
     private Wallet receiverWallet;
 
     @BeforeEach
+    @SuppressWarnings("unused")
     void setUp() {
         qrCodeRepository.deleteAll();
         walletRepository.deleteAll();
@@ -99,6 +101,7 @@ public class QRPaymentIntegrationTest {
     }
 
     @Test
+    @SuppressWarnings("null")
     void executeQRPayment_ShouldTransferBalancesAndMarkQRAsUsed() {
         BigDecimal payAmt = new BigDecimal("120.0000");
 

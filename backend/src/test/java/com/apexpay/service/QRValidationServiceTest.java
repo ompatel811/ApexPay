@@ -1,6 +1,20 @@
 package com.apexpay.service;
 
-import com.apexpay.entity.QRCode;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
+
 import com.apexpay.entity.User;
 import com.apexpay.entity.Wallet;
 import com.apexpay.entity.enums.AccountStatus;
@@ -11,19 +25,6 @@ import com.apexpay.repository.UserRepository;
 import com.apexpay.repository.WalletRepository;
 import com.apexpay.service.impl.QRValidationServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 public class QRValidationServiceTest {
 
@@ -43,6 +44,7 @@ public class QRValidationServiceTest {
     private ObjectMapper objectMapper;
 
     @BeforeEach
+    @SuppressWarnings("unused")
     void setUp() {
         MockitoAnnotations.openMocks(this);
         objectMapper = new ObjectMapper();

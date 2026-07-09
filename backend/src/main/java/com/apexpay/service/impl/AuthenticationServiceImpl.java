@@ -1,7 +1,33 @@
 package com.apexpay.service.impl;
 
-import com.apexpay.dto.*;
-import com.apexpay.entity.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.apexpay.dto.LoginRequest;
+import com.apexpay.dto.LoginResponse;
+import com.apexpay.dto.RefreshTokenRequest;
+import com.apexpay.dto.RefreshTokenResponse;
+import com.apexpay.dto.RegisterRequest;
+import com.apexpay.dto.RegisterResponse;
+import com.apexpay.dto.UserProfileResponse;
+import com.apexpay.entity.DeviceSession;
+import com.apexpay.entity.RefreshToken;
+import com.apexpay.entity.Role;
+import com.apexpay.entity.User;
+import com.apexpay.entity.Wallet;
 import com.apexpay.entity.enums.AccountStatus;
 import com.apexpay.entity.enums.RoleName;
 import com.apexpay.entity.enums.WalletStatus;
@@ -14,22 +40,11 @@ import com.apexpay.repository.UserRepository;
 import com.apexpay.repository.WalletRepository;
 import com.apexpay.security.JwtTokenProvider;
 import com.apexpay.security.UserPrincipal;
-import com.apexpay.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import com.apexpay.service.AuditService;
+import com.apexpay.service.AuthenticationService;
+import com.apexpay.service.PasswordService;
+import com.apexpay.service.RoleService;
+import com.apexpay.service.TokenService;
 
 /**
  * Service implementation coordinating user registration, login, logout, and token rotation.
@@ -128,6 +143,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     @Transactional
+    @SuppressWarnings("null")
     public LoginResponse login(LoginRequest request, String deviceName, String browser, String operatingSystem, String ipAddress) {
         Authentication authentication;
         try {

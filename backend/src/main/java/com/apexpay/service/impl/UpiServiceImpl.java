@@ -1,6 +1,22 @@
 package com.apexpay.service.impl;
 
-import com.apexpay.dto.*;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.apexpay.dto.CreateUpiRequest;
+import com.apexpay.dto.RequestMoneyRequest;
+import com.apexpay.dto.SendMoneyRequest;
+import com.apexpay.dto.SendMoneyResponse;
+import com.apexpay.dto.UpiPayRequest;
+import com.apexpay.dto.UpiRequestResponse;
+import com.apexpay.dto.UpiResponse;
 import com.apexpay.entity.BankAccount;
 import com.apexpay.entity.UpiId;
 import com.apexpay.entity.UpiRequest;
@@ -13,23 +29,16 @@ import com.apexpay.repository.BankAccountRepository;
 import com.apexpay.repository.UpiIdRepository;
 import com.apexpay.repository.UpiRequestRepository;
 import com.apexpay.repository.UserRepository;
-import com.apexpay.service.UpiService;
-import com.apexpay.service.PaymentService;
-import com.apexpay.service.NotificationService;
 import com.apexpay.service.AuditService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.apexpay.service.NotificationService;
+import com.apexpay.service.PaymentService;
+import com.apexpay.service.UpiService;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@SuppressWarnings("null")
 public class UpiServiceImpl implements UpiService {
 
     private final UpiIdRepository upiIdRepository;
@@ -59,6 +68,7 @@ public class UpiServiceImpl implements UpiService {
 
     @Override
     @Transactional
+    @SuppressWarnings("null")
     public UpiResponse createUpiId(UUID userId, CreateUpiRequest request) {
         log.info("Creating UPI ID for user: {}, handle: {}", userId, request.upiHandle());
 
@@ -111,6 +121,7 @@ public class UpiServiceImpl implements UpiService {
 
     @Override
     @Transactional
+    @SuppressWarnings("null")
     public UpiResponse setDefaultUpi(UUID upiId, UUID userId) {
         log.info("Setting UPI ID {} as primary for user {}", upiId, userId);
         UpiId upi = upiIdRepository.findById(upiId)
@@ -140,6 +151,7 @@ public class UpiServiceImpl implements UpiService {
 
     @Override
     @Transactional
+    @SuppressWarnings("null")
     public void deleteUpiId(UUID upiId, UUID userId) {
         log.info("Deleting UPI ID {} for user {}", upiId, userId);
         UpiId upi = upiIdRepository.findById(upiId)

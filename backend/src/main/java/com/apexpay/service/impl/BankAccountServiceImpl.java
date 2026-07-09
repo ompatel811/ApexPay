@@ -1,5 +1,15 @@
 package com.apexpay.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.apexpay.dto.BankAccountResponse;
 import com.apexpay.dto.LinkBankAccountRequest;
 import com.apexpay.entity.BankAccount;
@@ -11,22 +21,15 @@ import com.apexpay.exception.ForbiddenException;
 import com.apexpay.exception.ResourceNotFoundException;
 import com.apexpay.repository.BankAccountRepository;
 import com.apexpay.repository.UserRepository;
+import com.apexpay.service.AuditService;
 import com.apexpay.service.BankAccountService;
 import com.apexpay.service.NotificationService;
-import com.apexpay.service.AuditService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@SuppressWarnings("null")
 public class BankAccountServiceImpl implements BankAccountService {
 
     private final BankAccountRepository bankAccountRepository;
@@ -47,6 +50,7 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     @Transactional
+    @SuppressWarnings("null")
     public BankAccountResponse linkBankAccount(UUID userId, LinkBankAccountRequest request) {
         log.info("Linking bank account for user: {}, Bank: {}", userId, request.bankName());
         

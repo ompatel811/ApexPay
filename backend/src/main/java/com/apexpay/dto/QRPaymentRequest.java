@@ -1,9 +1,9 @@
 package com.apexpay.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.UUID;
+
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * DTO representing QR payment execution request.

@@ -1,5 +1,26 @@
 package com.apexpay.controller;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
+
 import com.apexpay.dto.ApiResponse;
 import com.apexpay.dto.AuditLogResponse;
 import com.apexpay.dto.DeviceSessionResponse;
@@ -7,21 +28,8 @@ import com.apexpay.dto.UpdateProfileRequest;
 import com.apexpay.dto.UserProfileResponse;
 import com.apexpay.security.UserPrincipal;
 import com.apexpay.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
 
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
+@SuppressWarnings({"null", "unused"})
 class UserControllerTest {
 
     @Mock
@@ -116,6 +124,7 @@ class UserControllerTest {
         ResponseEntity<ApiResponse<List<DeviceSessionResponse>>> response = userController.getSessions(userPrincipal);
 
         assertNotNull(response);
+        assertNotNull(response.getBody());
         assertEquals(200, response.getStatusCode().value());
         assertTrue(response.getBody().success());
         assertEquals(1, response.getBody().data().size());

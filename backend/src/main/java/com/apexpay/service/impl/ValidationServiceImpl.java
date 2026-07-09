@@ -1,7 +1,15 @@
 package com.apexpay.service.impl;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.apexpay.dto.SendMoneyRequest;
-import com.apexpay.entity.IdempotencyKey;
 import com.apexpay.entity.User;
 import com.apexpay.entity.Wallet;
 import com.apexpay.entity.WalletLedger;
@@ -13,18 +21,12 @@ import com.apexpay.repository.UserRepository;
 import com.apexpay.repository.WalletLedgerRepository;
 import com.apexpay.repository.WalletRepository;
 import com.apexpay.service.ValidationService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
-import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@SuppressWarnings("null")
 public class ValidationServiceImpl implements ValidationService {
 
     private final UserRepository userRepository;
@@ -43,6 +45,7 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
+    @SuppressWarnings("null")
     @Transactional(readOnly = true)
     public void validateTransfer(UUID senderUserId, SendMoneyRequest request) {
         // 1. Positive Amount check
@@ -70,7 +73,7 @@ public class ValidationServiceImpl implements ValidationService {
 
         // 4. Receiver Wallet Validation
         String recipient = request.recipientIdentifier().trim();
-        Wallet receiverWallet = null;
+        Wallet receiverWallet;
 
         // Recipient could be mobile number, email, username or wallet number
         if (recipient.contains("@")) {
@@ -146,7 +149,7 @@ public class ValidationServiceImpl implements ValidationService {
     @Override
     @Transactional(readOnly = true)
     public void validateIdempotency(String idempotencyKey) {
-        if (idempotencyKeyRepository.existsById(idempotencyKey)) {
+        if (idempotencyKeyRepository.existsById((String) idempotencyKey)) {
             throw new BusinessException("Duplicate request. Transaction is already processed or is processing.");
         }
     }

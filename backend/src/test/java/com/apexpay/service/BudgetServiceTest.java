@@ -1,5 +1,25 @@
 package com.apexpay.service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.ArgumentMatchers.eq;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import com.apexpay.dto.BudgetRequest;
 import com.apexpay.dto.BudgetResponse;
 import com.apexpay.dto.FinancialGoalRequest;
@@ -12,24 +32,9 @@ import com.apexpay.repository.BudgetRepository;
 import com.apexpay.repository.FinancialGoalRepository;
 import com.apexpay.repository.UserRepository;
 import com.apexpay.service.impl.BudgetServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("null")
 public class BudgetServiceTest {
 
     @Mock
@@ -54,6 +59,7 @@ public class BudgetServiceTest {
     private UUID userId;
 
     @BeforeEach
+    @SuppressWarnings("unused")
     void setUp() {
         userId = UUID.randomUUID();
         user = new User();

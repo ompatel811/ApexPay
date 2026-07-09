@@ -29,6 +29,7 @@ import java.util.UUID;
 
 @Slf4j
 @Service
+@SuppressWarnings({"null", "unused"})
 public class QRPaymentServiceImpl implements QRPaymentService {
 
     private final QRScannerService qrScannerService;

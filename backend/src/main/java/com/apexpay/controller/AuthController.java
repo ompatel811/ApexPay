@@ -21,6 +21,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Controller handling user registration, authentication, token refresh, and password recovery.
@@ -143,7 +145,8 @@ public class AuthController {
             throw new BusinessException("New passwords do not match.");
         }
 
-        User user = userRepository.findById(userPrincipal.getId())
+        UUID userId = Objects.requireNonNull(userPrincipal.getId(), "Authenticated user ID must not be null");
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (!passwordService.verifyCurrentPassword(user, request.currentPassword())) {

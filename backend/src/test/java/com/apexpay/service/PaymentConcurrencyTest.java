@@ -1,27 +1,27 @@
 package com.apexpay.service;
 
-import com.apexpay.entity.User;
-import com.apexpay.entity.Wallet;
-import com.apexpay.entity.enums.AccountStatus;
-import com.apexpay.entity.enums.WalletStatus;
-import com.apexpay.repository.UserRepository;
-import com.apexpay.repository.WalletRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.apexpay.entity.User;
+import com.apexpay.entity.Wallet;
+import com.apexpay.entity.enums.AccountStatus;
+import com.apexpay.entity.enums.WalletStatus;
+import com.apexpay.repository.UserRepository;
+import com.apexpay.repository.WalletRepository;
 
 @SpringBootTest
+@SuppressWarnings({"unused", "null"})
 public class PaymentConcurrencyTest {
 
     @Autowired

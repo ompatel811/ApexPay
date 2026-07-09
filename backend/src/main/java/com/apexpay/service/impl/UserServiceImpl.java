@@ -1,28 +1,39 @@
 package com.apexpay.service.impl;
 
-import com.apexpay.dto.*;
-import com.apexpay.entity.*;
-import com.apexpay.exception.DuplicateUserException;
-import com.apexpay.exception.ResourceNotFoundException;
-import com.apexpay.repository.*;
-import com.apexpay.service.AuditService;
-import com.apexpay.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.apexpay.dto.AuditLogResponse;
+import com.apexpay.dto.DeviceSessionResponse;
+import com.apexpay.dto.UpdateProfileRequest;
+import com.apexpay.dto.UserProfileResponse;
+import com.apexpay.entity.DeviceSession;
+import com.apexpay.entity.User;
+import com.apexpay.exception.DuplicateUserException;
+import com.apexpay.exception.ResourceNotFoundException;
+import com.apexpay.repository.AuditLogRepository;
+import com.apexpay.repository.DeviceSessionRepository;
+import com.apexpay.repository.UserRepository;
+import com.apexpay.service.AuditService;
+import com.apexpay.service.UserService;
+
 /**
  * Service implementation for managing user information.
  */
 @Service
+@SuppressWarnings("null")
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -39,6 +50,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
+    @SuppressWarnings("null")
     public UserProfileResponse getProfile(UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
@@ -48,6 +60,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @SuppressWarnings("null")
     public UserProfileResponse updateProfile(UUID userId, UpdateProfileRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));

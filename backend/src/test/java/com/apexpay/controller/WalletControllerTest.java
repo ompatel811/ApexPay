@@ -1,24 +1,38 @@
 package com.apexpay.controller;
 
-import com.apexpay.dto.*;
-import com.apexpay.security.UserPrincipal;
-import com.apexpay.service.WalletService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
 
+import com.apexpay.dto.AddMoneyRequest;
+import com.apexpay.dto.AddMoneyResponse;
+import com.apexpay.dto.ApiResponse;
+import com.apexpay.dto.WalletBalanceResponse;
+import com.apexpay.dto.WalletLedgerResponse;
+import com.apexpay.dto.WalletResponse;
+import com.apexpay.dto.WithdrawRequest;
+import com.apexpay.dto.WithdrawResponse;
+import com.apexpay.security.UserPrincipal;
+import com.apexpay.service.WalletService;
+
+@SuppressWarnings("null")
 class WalletControllerTest {
 
     @Mock
@@ -31,6 +45,7 @@ class WalletControllerTest {
     private UUID userId;
 
     @BeforeEach
+    @SuppressWarnings("unused")
     void setUp() {
         MockitoAnnotations.openMocks(this);
         userId = UUID.randomUUID();
@@ -65,6 +80,7 @@ class WalletControllerTest {
         ResponseEntity<ApiResponse<WalletResponse>> response = walletController.getWallet(userPrincipal);
 
         assertNotNull(response);
+        assertNotNull(response.getBody());
         assertEquals(200, response.getStatusCode().value());
         assertTrue(response.getBody().success());
         assertEquals("APX1234567890", response.getBody().data().walletNumber());
@@ -79,6 +95,7 @@ class WalletControllerTest {
         ResponseEntity<ApiResponse<WalletBalanceResponse>> response = walletController.getBalance(userPrincipal);
 
         assertNotNull(response);
+        assertNotNull(response.getBody());
         assertEquals(200, response.getStatusCode().value());
         assertTrue(response.getBody().success());
         assertEquals(new BigDecimal("150.00"), response.getBody().data().availableBalance());
@@ -101,6 +118,7 @@ class WalletControllerTest {
         ResponseEntity<ApiResponse<AddMoneyResponse>> response = walletController.addMoney(userPrincipal, request);
 
         assertNotNull(response);
+        assertNotNull(response.getBody());
         assertEquals(200, response.getStatusCode().value());
         assertTrue(response.getBody().success());
         assertEquals("TXN-ADD-123", response.getBody().data().transactionReference());
@@ -124,6 +142,7 @@ class WalletControllerTest {
         ResponseEntity<ApiResponse<WithdrawResponse>> response = walletController.withdraw(userPrincipal, request);
 
         assertNotNull(response);
+        assertNotNull(response.getBody());
         assertEquals(200, response.getStatusCode().value());
         assertTrue(response.getBody().success());
         assertEquals("TXN-WTH-123", response.getBody().data().transactionReference());
@@ -149,6 +168,7 @@ class WalletControllerTest {
         ResponseEntity<ApiResponse<List<WalletLedgerResponse>>> response = walletController.getLedger(userPrincipal);
 
         assertNotNull(response);
+        assertNotNull(response.getBody());
         assertEquals(200, response.getStatusCode().value());
         assertTrue(response.getBody().success());
         assertEquals(1, response.getBody().data().size());

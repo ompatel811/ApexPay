@@ -1,5 +1,12 @@
 package com.apexpay.service.impl;
 
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.apexpay.dto.AddBeneficiaryRequest;
 import com.apexpay.dto.BeneficiaryResponse;
 import com.apexpay.dto.UserProfileResponse;
@@ -12,16 +19,12 @@ import com.apexpay.repository.BeneficiaryRepository;
 import com.apexpay.repository.UserRepository;
 import com.apexpay.repository.WalletRepository;
 import com.apexpay.service.BeneficiaryService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@SuppressWarnings("null")
 public class BeneficiaryServiceImpl implements BeneficiaryService {
 
     private final UserRepository userRepository;

@@ -1,5 +1,27 @@
 package com.apexpay.service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import com.apexpay.dto.AccountStatementResponse;
 import com.apexpay.entity.StatementHistory;
 import com.apexpay.entity.Transaction;
@@ -12,27 +34,9 @@ import com.apexpay.repository.TransactionRepository;
 import com.apexpay.repository.UserRepository;
 import com.apexpay.repository.WalletRepository;
 import com.apexpay.service.impl.ReportServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("null")
 public class ReportServiceTest {
 
     @Mock
@@ -61,6 +65,7 @@ public class ReportServiceTest {
     private Wallet otherWallet;
 
     @BeforeEach
+    @SuppressWarnings("unused")
     void setUp() {
         userId = UUID.randomUUID();
         user = new User();
@@ -79,6 +84,7 @@ public class ReportServiceTest {
     }
 
     @Test
+    @SuppressWarnings("null")
     void generateStatement_Success() {
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
         when(walletRepository.findByUserId(userId)).thenReturn(Optional.of(wallet));

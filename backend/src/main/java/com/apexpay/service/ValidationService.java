@@ -1,8 +1,8 @@
 package com.apexpay.service;
 
-import com.apexpay.dto.SendMoneyRequest;
-import com.apexpay.entity.Wallet;
 import java.util.UUID;
+
+import com.apexpay.dto.SendMoneyRequest;
 
 /**
  * Service managing transactional validations for wallet-to-wallet transfers.

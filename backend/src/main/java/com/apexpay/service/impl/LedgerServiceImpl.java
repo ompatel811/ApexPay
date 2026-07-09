@@ -25,50 +25,54 @@ public class LedgerServiceImpl implements LedgerService {
     @Override
     @Transactional
     public void createLedgerEntries(Transaction transaction, Wallet sender, Wallet receiver, BigDecimal amount) {
-        log.info("Creating double-entry ledger listings for Transaction Ref: {}", transaction.getTransactionReference());
+        log.info("Creating ledger listings for Transaction Ref: {}", transaction.getTransactionReference());
 
         // 1. Debit Entry for Sender
-        WalletLedger debitEntry = new WalletLedger();
-        debitEntry.setWallet(sender);
-        debitEntry.setReferenceNumber(transaction.getTransactionReference());
-        debitEntry.setTransactionType("TRANSFER");
-        debitEntry.setAmount(amount);
-        
-        // Balance after debit is sender's current balance, balance before was balance + amount
-        BigDecimal senderBalanceAfter = sender.getBalance();
-        BigDecimal senderBalanceBefore = senderBalanceAfter.add(amount);
-        debitEntry.setBalanceBefore(senderBalanceBefore);
-        debitEntry.setBalanceAfter(senderBalanceAfter);
-        
-        debitEntry.setTimestamp(LocalDateTime.now());
-        debitEntry.setRemarks("Transfer to " + receiver.getUser().getFullName() + " (" + receiver.getWalletNumber() + ")");
-        debitEntry.setStatus("SUCCESS");
-        debitEntry.setTransaction(transaction);
-        debitEntry.setDirection("DEBIT");
+        if (sender != null) {
+            WalletLedger debitEntry = new WalletLedger();
+            debitEntry.setWallet(sender);
+            debitEntry.setReferenceNumber(transaction.getTransactionReference());
+            debitEntry.setTransactionType(transaction.getTransactionType() != null ? transaction.getTransactionType().name() : "TRANSFER");
+            debitEntry.setAmount(amount);
+            
+            BigDecimal senderBalanceAfter = sender.getBalance();
+            BigDecimal senderBalanceBefore = senderBalanceAfter.add(amount);
+            debitEntry.setBalanceBefore(senderBalanceBefore);
+            debitEntry.setBalanceAfter(senderBalanceAfter);
+            
+            debitEntry.setTimestamp(LocalDateTime.now());
+            String destName = (receiver != null) ? receiver.getUser().getFullName() + " (" + receiver.getWalletNumber() + ")" : "External Bank / Settlement";
+            debitEntry.setRemarks(transaction.getRemarks() != null ? transaction.getRemarks() : "Debit payout to " + destName);
+            debitEntry.setStatus("SUCCESS");
+            debitEntry.setTransaction(transaction);
+            debitEntry.setDirection("DEBIT");
 
-        walletLedgerRepository.save(debitEntry);
-        log.debug("Debit ledger entry created successfully for wallet: {}", sender.getWalletNumber());
+            walletLedgerRepository.save(debitEntry);
+            log.debug("Debit ledger entry created successfully for wallet: {}", sender.getWalletNumber());
+        }
 
         // 2. Credit Entry for Receiver
-        WalletLedger creditEntry = new WalletLedger();
-        creditEntry.setWallet(receiver);
-        creditEntry.setReferenceNumber(transaction.getTransactionReference());
-        creditEntry.setTransactionType("TRANSFER");
-        creditEntry.setAmount(amount);
+        if (receiver != null) {
+            WalletLedger creditEntry = new WalletLedger();
+            creditEntry.setWallet(receiver);
+            creditEntry.setReferenceNumber(transaction.getTransactionReference());
+            creditEntry.setTransactionType(transaction.getTransactionType() != null ? transaction.getTransactionType().name() : "TRANSFER");
+            creditEntry.setAmount(amount);
 
-        // Balance after credit is receiver's current balance, balance before was balance - amount
-        BigDecimal receiverBalanceAfter = receiver.getBalance();
-        BigDecimal receiverBalanceBefore = receiverBalanceAfter.subtract(amount);
-        creditEntry.setBalanceBefore(receiverBalanceBefore);
-        creditEntry.setBalanceAfter(receiverBalanceAfter);
+            BigDecimal receiverBalanceAfter = receiver.getBalance();
+            BigDecimal receiverBalanceBefore = receiverBalanceAfter.subtract(amount);
+            creditEntry.setBalanceBefore(receiverBalanceBefore);
+            creditEntry.setBalanceAfter(receiverBalanceAfter);
 
-        creditEntry.setTimestamp(LocalDateTime.now());
-        creditEntry.setRemarks("Transfer from " + sender.getUser().getFullName() + " (" + sender.getWalletNumber() + ")");
-        creditEntry.setStatus("SUCCESS");
-        creditEntry.setTransaction(transaction);
-        creditEntry.setDirection("CREDIT");
+            creditEntry.setTimestamp(LocalDateTime.now());
+            String srcName = (sender != null) ? sender.getUser().getFullName() + " (" + sender.getWalletNumber() + ")" : "External Source / Deposit";
+            creditEntry.setRemarks(transaction.getRemarks() != null ? transaction.getRemarks() : "Credit receipt from " + srcName);
+            creditEntry.setStatus("SUCCESS");
+            creditEntry.setTransaction(transaction);
+            creditEntry.setDirection("CREDIT");
 
-        walletLedgerRepository.save(creditEntry);
-        log.debug("Credit ledger entry created successfully for wallet: {}", receiver.getWalletNumber());
+            walletLedgerRepository.save(creditEntry);
+            log.debug("Credit ledger entry created successfully for wallet: {}", receiver.getWalletNumber());
+        }
     }
 }

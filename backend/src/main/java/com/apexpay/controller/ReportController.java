@@ -74,7 +74,7 @@ public class ReportController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
-                .contentType(mediaType)
+                .contentType(java.util.Objects.requireNonNull(mediaType))
                 .body(fileBytes);
     }
 }

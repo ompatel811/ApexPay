@@ -1,5 +1,15 @@
 package com.apexpay.service.impl;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.apexpay.dto.PaymentValidationResponse;
 import com.apexpay.dto.SendMoneyRequest;
 import com.apexpay.dto.SendMoneyResponse;
@@ -9,12 +19,11 @@ import com.apexpay.entity.UpiId;
 import com.apexpay.entity.User;
 import com.apexpay.entity.Wallet;
 import com.apexpay.entity.WalletLedger;
+import com.apexpay.entity.enums.NotificationType;
 import com.apexpay.entity.enums.TransactionStatus;
-import com.apexpay.entity.enums.WalletStatus;
 import com.apexpay.exception.BusinessException;
 import com.apexpay.exception.ResourceNotFoundException;
 import com.apexpay.repository.IdempotencyKeyRepository;
-import com.apexpay.entity.enums.NotificationType;
 import com.apexpay.repository.UpiIdRepository;
 import com.apexpay.repository.UserRepository;
 import com.apexpay.repository.WalletLedgerRepository;
@@ -22,24 +31,17 @@ import com.apexpay.repository.WalletRepository;
 import com.apexpay.service.AuditService;
 import com.apexpay.service.NotificationService;
 import com.apexpay.service.PaymentService;
+import com.apexpay.service.TransactionService;
 import com.apexpay.service.ValidationService;
 import com.apexpay.service.WalletTransferService;
-import com.apexpay.service.TransactionService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@SuppressWarnings("null")
 public class PaymentServiceImpl implements PaymentService {
 
     private final ValidationService validationService;
@@ -79,6 +81,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @SuppressWarnings("null")
     public SendMoneyResponse processTransfer(UUID senderUserId, SendMoneyRequest request) {
         String key = request.idempotencyKey();
         log.info("Processing transfer request. Sender: {}, Recipient: {}, Amount: {}, IdempotencyKey: {}",

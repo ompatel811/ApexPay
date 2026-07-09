@@ -46,6 +46,7 @@ public class QRValidationServiceImpl implements QRValidationService {
 
     @Override
     @Transactional(readOnly = true)
+    @SuppressWarnings("null")
     public void validateQRCode(String signedJson) {
         log.info("Running validation checks on scanned QR payload.");
 
@@ -59,7 +60,6 @@ public class QRValidationServiceImpl implements QRValidationService {
             
             String userIdStr = (String) map.get("userId");
             String walletIdStr = (String) map.get("walletId");
-            String type = (String) map.get("type");
             String reference = (String) map.get("reference");
             String expirationStr = (String) map.get("expiration");
 
@@ -95,7 +95,7 @@ public class QRValidationServiceImpl implements QRValidationService {
         } catch (BusinessException | ResourceNotFoundException ex) {
             throw ex;
         } catch (Exception e) {
-            log.error("Failed to parse and validate QR JSON content", e);
+            log.error("Failed to parse and validate QR JSON content: {}", e.getMessage());
             throw new BusinessException("Scanned QR contains invalid format parameters.");
         }
     }

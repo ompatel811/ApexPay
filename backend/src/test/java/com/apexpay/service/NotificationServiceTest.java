@@ -1,5 +1,25 @@
 package com.apexpay.service;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+
 import com.apexpay.dto.NotificationResponse;
 import com.apexpay.entity.Notification;
 import com.apexpay.entity.User;
@@ -7,26 +27,9 @@ import com.apexpay.entity.enums.AccountStatus;
 import com.apexpay.entity.enums.NotificationType;
 import com.apexpay.repository.NotificationRepository;
 import com.apexpay.service.impl.NotificationServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("null")
 public class NotificationServiceTest {
 
     @Mock
@@ -45,6 +48,7 @@ public class NotificationServiceTest {
     private UUID userId;
 
     @BeforeEach
+    @SuppressWarnings("unused")
     void setUp() {
         userId = UUID.randomUUID();
         testUser = new User();
@@ -55,6 +59,7 @@ public class NotificationServiceTest {
     }
 
     @Test
+    @SuppressWarnings("null")
     void sendNotification_Success() {
         when(notificationRepository.save(any(Notification.class))).thenAnswer(invocation -> {
             Notification n = invocation.getArgument(0);

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { 
   CreditCard, 
@@ -47,15 +48,15 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-4">
-            <button className="text-sm font-medium text-slate-300 hover:text-white transition-colors px-4 py-2">
+            <Link href="/login" className="text-sm font-medium text-slate-300 hover:text-white transition-colors px-4 py-2">
               Sign In
-            </button>
-            <button className="relative group overflow-hidden rounded-xl bg-white text-slate-950 font-semibold text-sm px-5 py-2.5 transition-all active:scale-95">
+            </Link>
+            <Link href="/login" className="relative group overflow-hidden rounded-xl bg-white text-slate-950 font-semibold text-sm px-5 py-2.5 transition-all active:scale-95">
               <span className="relative z-10 flex items-center gap-2">
                 Launch App <ArrowRight className="w-4 h-4" />
               </span>
               <span className="absolute inset-0 bg-gradient-to-r from-indigo-100 to-indigo-200 opacity-0 group-hover:opacity-100 transition-opacity" />
-            </button>
+            </Link>
           </div>
         </div>
       </nav>
@@ -99,12 +100,12 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
           >
-            <button className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 px-8 py-4 rounded-xl font-semibold shadow-lg shadow-indigo-600/30 transition-all hover:-translate-y-0.5 active:translate-y-0">
+            <Link href="/register" className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 px-8 py-4 rounded-xl font-semibold shadow-lg shadow-indigo-600/30 transition-all hover:-translate-y-0.5 active:translate-y-0">
               Get Started Free <ArrowRight className="w-5 h-5" />
-            </button>
-            <button className="flex items-center justify-center gap-2 border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10 px-8 py-4 rounded-xl font-semibold transition-all hover:-translate-y-0.5 active:translate-y-0">
+            </Link>
+            <Link href="/login" className="flex items-center justify-center gap-2 border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10 px-8 py-4 rounded-xl font-semibold transition-all hover:-translate-y-0.5 active:translate-y-0">
               View Developer Docs
-            </button>
+            </Link>
           </motion.div>
 
           {/* Stats Bar */}

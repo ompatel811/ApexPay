@@ -82,7 +82,11 @@ export default function MerchantLayout({ children }: { children: React.ReactNode
           router.push('/merchant/kyc');
         }
       } catch (err: any) {
-        console.error('Failed to load merchant profile:', err);
+        if (err?.response?.status === 404) {
+          console.warn('No active merchant profile found for user. Redirecting to registration.');
+        } else {
+          console.error('Failed to load merchant profile:', err);
+        }
         // If 404 (or error implies no business), redirect to registration
         if (pathname !== '/merchant/register') {
           router.push('/merchant/register');

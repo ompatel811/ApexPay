@@ -34,6 +34,10 @@ import com.apexpay.service.PaymentService;
 import com.apexpay.service.TransactionService;
 import com.apexpay.service.ValidationService;
 import com.apexpay.service.WalletTransferService;
+import com.apexpay.service.admin.RiskEngineService;
+import com.apexpay.entity.admin.FraudAlert;
+import com.apexpay.entity.enums.WalletStatus;
+import com.apexpay.entity.enums.AccountStatus;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -55,6 +59,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final ObjectMapper objectMapper;
     private final UpiIdRepository upiIdRepository;
     private final NotificationService notificationService;
+    private final RiskEngineService riskEngineService;
 
     public PaymentServiceImpl(ValidationService validationService,
                               WalletTransferService walletTransferService,
@@ -66,7 +71,8 @@ public class PaymentServiceImpl implements PaymentService {
                               WalletLedgerRepository walletLedgerRepository,
                               ObjectMapper objectMapper,
                               UpiIdRepository upiIdRepository,
-                              NotificationService notificationService) {
+                              NotificationService notificationService,
+                              RiskEngineService riskEngineService) {
         this.validationService = validationService;
         this.walletTransferService = walletTransferService;
         this.transactionService = transactionService;
@@ -78,6 +84,7 @@ public class PaymentServiceImpl implements PaymentService {
         this.objectMapper = objectMapper;
         this.upiIdRepository = upiIdRepository;
         this.notificationService = notificationService;
+        this.riskEngineService = riskEngineService;
     }
 
     @Override
@@ -105,6 +112,29 @@ public class PaymentServiceImpl implements PaymentService {
 
         // 2. Dry-run Validations (limits, positive amount, active, etc.)
         validationService.validateTransfer(senderUserId, request);
+
+        // Evaluate Risk Engine Rules
+        FraudAlert alert = riskEngineService.evaluateTransaction(senderUserId, request);
+        if ("BLOCK".equalsIgnoreCase(alert.getAction()) || 
+            "FREEZE_WALLET".equalsIgnoreCase(alert.getAction()) || 
+            "FREEZE_USER".equalsIgnoreCase(alert.getAction())) {
+            
+            if ("FREEZE_USER".equalsIgnoreCase(alert.getAction())) {
+                User user = userRepository.findById(senderUserId).orElse(null);
+                if (user != null) {
+                    user.setAccountStatus(AccountStatus.BLOCKED);
+                    userRepository.save(user);
+                }
+            }
+            if ("FREEZE_WALLET".equalsIgnoreCase(alert.getAction()) || "FREEZE_USER".equalsIgnoreCase(alert.getAction())) {
+                Wallet senderWallet = walletRepository.findByUserId(senderUserId).orElse(null);
+                if (senderWallet != null) {
+                    senderWallet.setWalletStatus(WalletStatus.FROZEN);
+                    walletRepository.save(senderWallet);
+                }
+            }
+            throw new BusinessException("Transaction blocked due to high security risk: " + alert.getReason());
+        }
 
         // 3. Reserve Idempotency Lock
         IdempotencyKey lockKey = new IdempotencyKey(key, "PROCESSING");

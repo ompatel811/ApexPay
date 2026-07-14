@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apexpay-backend
+  labels:
+    app: apexpay-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: apexpay-backend
+  template:
+    metadata:
+      labels:
+        app: apexpay-backend
+    spec:
+      containers:
+        - name: backend
+          image: apexpay-backend:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: apexpay-config
+                  key: postgres-url
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: apexpay-config
+                  key: postgres-user
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: apexpay-secrets
+                  key: postgres-password
+            - name: SPRING_DATA_REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: apexpay-config
+                  key: redis-host
+            - name: SPRING_DATA_REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: apexpay-config
+                  key: redis-port
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: apexpay-secrets
+                  key: jwt-secret
+          resources:
+            limits:
+              cpu: "1.5"
+              memory: 1.5Gi
+            requests:
+              cpu: 750m
+              memory: 1Gi
+          livenessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 8080
+            initialDelaySeconds: 40
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apexpay-backend
+spec:
+  selector:
+    app: apexpay-backend
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: ClusterIP

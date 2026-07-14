@@ -1,6 +1,7 @@
 package com.apexpay.repository;
 
 import com.apexpay.entity.Transaction;
+import com.apexpay.entity.enums.TransactionStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,4 +27,13 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
 
     @Query("SELECT t FROM Transaction t WHERE t.senderWallet.user.id = :userId OR t.receiverWallet.user.id = :userId")
     java.util.List<Transaction> findAllTransactionsByUserId(@Param("userId") UUID userId);
+
+    @Query("SELECT COUNT(t) FROM Transaction t WHERE t.senderWallet.user.id = :userId AND t.createdAt >= :time")
+    long countBySenderUserIdAndCreatedAtAfter(@Param("userId") UUID userId, @Param("time") java.time.LocalDateTime time);
+
+    @Query("SELECT COUNT(t) FROM Transaction t WHERE t.senderWallet.user.id = :userId AND t.paymentStatus = :status AND t.createdAt >= :time")
+    long countBySenderUserIdAndStatusAndCreatedAtAfter(@Param("userId") UUID userId, @Param("status") TransactionStatus status, @Param("time") java.time.LocalDateTime time);
+
+    @Query("SELECT COUNT(t) FROM Transaction t WHERE t.category = :category AND t.createdAt >= :time")
+    long countByCategoryAndCreatedAtAfter(@Param("category") String category, @Param("time") java.time.LocalDateTime time);
 }

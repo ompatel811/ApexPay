@@ -1,117 +1,87 @@
-# ApexPay - Next-Gen Digital Payment Platform
+# ApexPay - Enterprise Digital Payment Platform
 
-ApexPay is a production-ready, educational Digital Payment Platform inspired by Google Pay. It supports bank accounts integration, secure wallet settlements, QR codes generation, multi-device session checks, and automated audit logs.
-
-## Tech Stack
-
-### Frontend
-- **Framework**: Next.js 15 (App Router)
-- **UI / UX**: React 19, Tailwind CSS, Framer Motion, Lucide Icons
-- **State & Data**: Zustand (local state), TanStack React Query (server cache), Axios (HTTP Client)
-- **Forms & Validation**: React Hook Form, Zod
-
-### Backend
-- **Core**: Java 21, Spring Boot 3
-- **Data Layer**: Spring Data JPA, PostgreSQL
-- **Caching / Session**: Redis
-- **Security**: Spring Security, JWT (stateless)
-- **Migrations**: Flyway
-- **Tooling**: Maven, Lombok, Spring Boot Actuator
-
-### DevOps & Infrastructure
-- **Containers**: Docker, Docker Compose
-- **Network**: Custom bridge network
+ApexPay is a production-grade, highly-available, and secure Digital Payment Platform inspired by Google Pay. It supports high-concurrency P2P wallet transfers, UPI and direct bank integrations, real-time fraud rules screening, dynamic encrypted QR codes, and an AI-powered financial advisory hub.
 
 ---
 
-## Directory Structure
-
-```text
-payment-platform/
-├── frontend/             # Next.js 15 client application
-├── backend/              # Spring Boot 3 backend application
-├── database/             # Persistent database schemas / SQL exports
-├── docs/                 # Architecture, normalization and API docs
-├── docker/               # Dockerfile configurations for front and back
-├── nginx/                # Proxy/Web server config (if needed)
-├── postman/              # API Collection exports for testing
-├── scripts/              # Setup, database seeding, and utility scripts
-├── .gitignore            # Multi-stack git exclusions
-├── .editorconfig         # Code format guidelines
-├── .prettierrc           # Prettier rules for frontend
-├── docker-compose.yml    # Service orchestration (front, back, db, cache)
-└── README.md             # Project documentation
-```
+## 🚀 Key Modules Completed
+*   **Module 1 – Project Setup**: Multi-tier architecture build configurations.
+*   **Module 2 – Database Design**: Relational schemas, indexing, and Flyway database migrations.
+*   **Module 3 – Authentication**: Spring Security state-aware JWT session authorization.
+*   **Module 4 – Dashboard**: Glassmorphic Next.js interface with real-time stats feeds.
+*   **Module 5 – Wallet Management**: Multi-currency ledger balances and deposits.
+*   **Module 6 – Payment Engine**: Pessimistic database row locking for concurrent P2P transfers.
+*   **Module 7 – QR Payments**: Encrypted dynamic QR payment code scanner.
+*   **Module 8 – Bank & UPI**: UPI ID mapping and virtual bank routing.
+*   **Module 9 – Notifications**: Real-time SSE audit updates and client notification feeds.
+*   **Module 10 – Analytics**: Spend analytics reporting and PDF transaction exports.
+*   **Module 11 – Merchant Platform**: Refund logic checkpoints and dynamic checkouts.
+*   **Module 12 – Admin Platform**: Blacklist controls, transaction overrides, and system health checks.
+*   **Module 13 – Fraud Detection**: Dynamic risk engine checks.
+*   **Module 14 – AI Assistant**: Budget suggestions chatbot with FICO spending scores.
+*   **Module 15 – DevOps & Cloud**: Automatic Docker containers, Kubernetes deployments, and cloud infrastructures.
 
 ---
 
-## Getting Started
+## 🛠 Tech Stack & Tools
 
-### Prerequisites
-- [Docker & Docker Compose](https://www.docker.com/)
-- [Java 21 JDK](https://adoptium.net/) (for local backend development)
-- [Node.js 20 or later](https://nodejs.org/) (for local frontend development)
-- [Maven 3.9+](https://maven.apache.org/) (optional, Maven wrapper is included)
+### Frontend Core
+*   **Framework**: Next.js 14 / React (TypeScript)
+*   **Styling**: Vanilla Tailwind CSS tokens
+*   **Charts**: Recharts
 
----
+### Backend Core
+*   **Framework**: Java 21 / Spring Boot 3
+*   **Data Persistence**: Hibernate JPA, PostgreSQL
+*   **Caching & Rates**: Redis
+*   **Security**: Spring Security + Stateless JWT auth
 
-## Running with Docker (Recommended)
-
-To start the entire platform (PostgreSQL, Redis, Spring Boot Backend, Next.js Frontend) in one command:
-
-```bash
-docker-compose up --build
-```
-
-This will launch:
-- **Frontend** at [http://localhost:3000](http://localhost:3000)
-- **Backend API** at [http://localhost:8080](http://localhost:8080)
-- **Swagger Documentation** at [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
-- **PostgreSQL Database** at port `5432`
-- **Redis Cache Store** at port `6379`
+### DevOps & Monitoring
+*   **Gateway**: Nginx reverse proxy with gzip compression & SSL termination
+*   **CI/CD**: GitHub Actions pipelines
+*   **Orchestration**: Kubernetes manifests (Deployments, Services, ConfigMaps, Secrets, Ingress, HPA)
+*   **Cloud IaC**: Terraform VPC, RDS, and EKS configuration
+*   **Metrics**: Prometheus & Grafana System dashboards
+*   **Logging**: ELK Stack (Logstash, Elasticsearch, Kibana)
 
 ---
 
-## Running Locally (Development Mode)
+## 📂 Documentation & Manuals
 
-### 1. Spin up Database & Redis Services
-Start only the PostgreSQL and Redis containers:
-```bash
-docker-compose up -d postgres redis
-```
+A complete suite of architectural manuals and operational documents is available in the [docs/](file:///Users/ompatel/.gemini/antigravity-ide/scratch/apexpay/docs/) directory:
 
-### 2. Run the Backend API
-Navigate to the `backend` directory and start the Spring Boot application:
-```bash
-cd backend
-mvn spring-boot:run
-```
-
-### 3. Run the Frontend Client
-Navigate to the `frontend` directory, install packages, and start the development server:
-```bash
-cd frontend
-npm install
-npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+1.  [Complete Project Documentation](file:///Users/ompatel/.gemini/antigravity-ide/scratch/apexpay/docs/project_documentation.md)
+2.  [Software Architecture Document](file:///Users/ompatel/.gemini/antigravity-ide/scratch/apexpay/docs/software_architecture.md)
+3.  [Deployment Guide](file:///Users/ompatel/.gemini/antigravity-ide/scratch/apexpay/docs/deployment_guide.md)
+4.  [API Documentation](file:///Users/ompatel/.gemini/antigravity-ide/scratch/apexpay/docs/api_documentation.md)
+5.  [User Manual](file:///Users/ompatel/.gemini/antigravity-ide/scratch/apexpay/docs/user_manual.md)
+6.  [Admin Manual](file:///Users/ompatel/.gemini/antigravity-ide/scratch/apexpay/docs/admin_manual.md)
+7.  [Developer Guide](file:///Users/ompatel/.gemini/antigravity-ide/scratch/apexpay/docs/developer_guide.md)
+8.  [Final ER Diagram](file:///Users/ompatel/.gemini/antigravity-ide/scratch/apexpay/docs/er_diagram.md)
+9.  [Final System Architecture Diagram](file:///Users/ompatel/.gemini/antigravity-ide/scratch/apexpay/docs/system_architecture_diagram.md)
 
 ---
 
-## Verification
+## 🏃 Running the Application
 
-To verify that the setup is fully operational, run:
-
+### Option 1: Running with Docker Compose (Recommended)
+Launch all 5 containers (Postgres, Redis, Backend, Frontend, and Nginx secure gateway):
 ```bash
-# Check the backend status (PostgreSQL & Redis health probes)
-curl http://localhost:8080/api/v1/health
+docker-compose up -d --build
 ```
+Access the application securely at `https://localhost`.
 
-Expected JSON response:
-```json
-{
-  "status": "UP",
-  "database": "UP",
-  "redis": "UP"
-}
-```
+### Option 2: Running Locally (Development Mode)
+1.  Start Postgres & Redis services:
+    ```bash
+    docker-compose up -d postgres redis
+    ```
+2.  Launch Backend API:
+    ```bash
+    cd backend && mvn spring-boot:run
+    ```
+3.  Launch Frontend client:
+    ```bash
+    cd frontend && npm install && npm run dev
+    ```
+    Access at `http://localhost:3000`.

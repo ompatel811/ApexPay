@@ -29,6 +29,8 @@ import com.apexpay.repository.WalletLedgerRepository;
 import com.apexpay.repository.WalletRepository;
 import com.apexpay.service.impl.PaymentServiceImpl;
 import com.apexpay.service.impl.ValidationServiceImpl;
+import com.apexpay.service.admin.RiskEngineService;
+import com.apexpay.entity.admin.FraudAlert;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SuppressWarnings({"unused", "null"})
@@ -61,6 +63,9 @@ public class PaymentServiceTest {
     @Mock
     private NotificationService notificationService;
 
+    @Mock
+    private RiskEngineService riskEngineService;
+
     private ValidationService validationService;
     private PaymentService paymentService;
 
@@ -77,8 +82,14 @@ public class PaymentServiceTest {
         paymentService = new PaymentServiceImpl(
                 validationService, walletTransferService, transactionService, auditService,
                 idempotencyKeyRepository, walletRepository, userRepository, walletLedgerRepository, new ObjectMapper(),
-                upiIdRepository, notificationService
+                upiIdRepository, notificationService, riskEngineService
         );
+
+        FraudAlert lowRiskAlert = new FraudAlert();
+        lowRiskAlert.setAction("ALLOW");
+        lowRiskAlert.setRiskLevel("LOW");
+        lowRiskAlert.setRiskScore(0);
+        when(riskEngineService.evaluateTransaction(any(), any())).thenReturn(lowRiskAlert);
 
         UUID senderId = UUID.randomUUID();
         UUID receiverId = UUID.randomUUID();

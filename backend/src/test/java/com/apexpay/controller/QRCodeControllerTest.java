@@ -23,6 +23,9 @@ import com.apexpay.entity.enums.AccountStatus;
 import com.apexpay.entity.enums.WalletStatus;
 import com.apexpay.repository.UserRepository;
 import com.apexpay.repository.WalletRepository;
+import com.apexpay.repository.IdempotencyKeyRepository;
+import com.apexpay.repository.TransactionRepository;
+import com.apexpay.repository.QRCodeRepository;
 import com.apexpay.security.JwtTokenProvider;
 import com.apexpay.service.QRCodeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,6 +45,15 @@ public class QRCodeControllerTest {
     private WalletRepository walletRepository;
 
     @Autowired
+    private IdempotencyKeyRepository idempotencyKeyRepository;
+
+    @Autowired
+    private TransactionRepository transactionRepository;
+
+    @Autowired
+    private QRCodeRepository qrCodeRepository;
+
+    @Autowired
     private QRCodeService qrCodeService;
 
     @Autowired
@@ -58,6 +70,9 @@ public class QRCodeControllerTest {
 
     @BeforeEach
     void setUp() {
+        idempotencyKeyRepository.deleteAll();
+        transactionRepository.deleteAll();
+        qrCodeRepository.deleteAll();
         walletRepository.deleteAll();
         userRepository.deleteAll();
 

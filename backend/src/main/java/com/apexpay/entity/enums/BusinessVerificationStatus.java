@@ -6,5 +6,6 @@ package com.apexpay.entity.enums;
 public enum BusinessVerificationStatus {
     PENDING,
     APPROVED,
-    REJECTED
+    REJECTED,
+    SUSPENDED
 }

@@ -22,7 +22,8 @@ import {
   Loader2,
   Activity,
   FileText,
-  Sliders
+  Sliders,
+  Sparkles
 } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
@@ -82,6 +83,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { name: 'Analytics', icon: Activity, path: '/dashboard/analytics', active: pathname === '/dashboard/analytics' },
     { name: 'Reports', icon: FileText, path: '/dashboard/reports', active: pathname === '/dashboard/reports' },
     { name: 'Budgets & Goals', icon: Sliders, path: '/dashboard/budgets', active: pathname === '/dashboard/budgets' },
+    { name: 'AI Assistant', icon: Sparkles, path: '/dashboard/ai', active: pathname === '/dashboard/ai' || pathname.startsWith('/dashboard/ai') },
     { name: 'Notifications', icon: Bell, path: '/dashboard/notifications', active: pathname === '/dashboard/notifications' },
     { name: 'Merchant Portal', icon: Sliders, path: '/merchant/dashboard', active: false },
     { name: 'Settings', icon: Settings, path: '/dashboard/settings', active: pathname === '/dashboard/settings' },

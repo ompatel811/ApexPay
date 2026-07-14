@@ -18,4 +18,5 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
     boolean existsByMobileNumber(String mobileNumber);
+    long countByAccountStatus(com.apexpay.entity.enums.AccountStatus accountStatus);
 }

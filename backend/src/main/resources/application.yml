@@ -3,9 +3,9 @@ spring:
     name: apexpay-backend
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/payment_platform
-    username: postgres
-    password: Mahipatel2206
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/payment_platform}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:Mahipatel2206}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -19,11 +19,11 @@ spring:
 
   data:
     redis:
-      host: localhost
-      port: 6379
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
   mail:
-    host: localhost
-    port: 25
+    host: ${SPRING_MAIL_HOST:localhost}
+    port: ${SPRING_MAIL_PORT:25}
 
 server:
   port: 8080

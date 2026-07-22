@@ -32,7 +32,6 @@ import com.apexpay.dto.WithdrawResponse;
 import com.apexpay.security.UserPrincipal;
 import com.apexpay.service.WalletService;
 
-@SuppressWarnings("null")
 class WalletControllerTest {
 
     @Mock
@@ -45,7 +44,6 @@ class WalletControllerTest {
     private UUID userId;
 
     @BeforeEach
-    @SuppressWarnings("unused")
     void setUp() {
         MockitoAnnotations.openMocks(this);
         userId = UUID.randomUUID();

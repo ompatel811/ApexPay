@@ -29,7 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-@SuppressWarnings("null")
 public class BankAccountServiceImpl implements BankAccountService {
 
     private final BankAccountRepository bankAccountRepository;
@@ -50,7 +49,6 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     @Transactional
-    @SuppressWarnings("null")
     public BankAccountResponse linkBankAccount(UUID userId, LinkBankAccountRequest request) {
         log.info("Linking bank account for user: {}, Bank: {}", userId, request.bankName());
         

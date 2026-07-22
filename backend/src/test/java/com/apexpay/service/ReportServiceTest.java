@@ -36,7 +36,6 @@ import com.apexpay.repository.WalletRepository;
 import com.apexpay.service.impl.ReportServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("null")
 public class ReportServiceTest {
 
     @Mock
@@ -65,7 +64,6 @@ public class ReportServiceTest {
     private Wallet otherWallet;
 
     @BeforeEach
-    @SuppressWarnings("unused")
     void setUp() {
         userId = UUID.randomUUID();
         user = new User();
@@ -84,7 +82,6 @@ public class ReportServiceTest {
     }
 
     @Test
-    @SuppressWarnings("null")
     void generateStatement_Success() {
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
         when(walletRepository.findByUserId(userId)).thenReturn(Optional.of(wallet));

@@ -4,7 +4,6 @@ import com.apexpay.dto.SendMoneyRequest;
 import com.apexpay.entity.Transaction;
 import com.apexpay.entity.User;
 import com.apexpay.entity.Wallet;
-import com.apexpay.entity.admin.Blacklist;
 import com.apexpay.entity.admin.FraudAlert;
 import com.apexpay.entity.admin.FraudRule;
 import com.apexpay.entity.enums.TransactionStatus;

@@ -26,7 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-@SuppressWarnings("null")
 public class ValidationServiceImpl implements ValidationService {
 
     private final UserRepository userRepository;
@@ -45,7 +44,6 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    @SuppressWarnings("null")
     @Transactional(readOnly = true)
     public void validateTransfer(UUID senderUserId, SendMoneyRequest request) {
         // 1. Positive Amount check

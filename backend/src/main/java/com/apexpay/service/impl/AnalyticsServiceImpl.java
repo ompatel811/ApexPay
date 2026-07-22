@@ -40,7 +40,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-@SuppressWarnings({"null", "unused"})
 public class AnalyticsServiceImpl implements AnalyticsService {
 
     private final TransactionRepository transactionRepository;
@@ -135,7 +134,6 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 .filter(t -> t.getSenderWallet() != null && t.getSenderWallet().getUser().getId().equals(userId))
                 .collect(Collectors.toList());
 
-        LocalDateTime now = LocalDateTime.now();
         LocalDateTime startOfToday = LocalDate.now().atStartOfDay();
         LocalDateTime startOfWeek = LocalDate.now().minusDays(7).atStartOfDay();
         LocalDateTime startOfMonth = LocalDate.now().withDayOfMonth(1).atStartOfDay();

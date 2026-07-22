@@ -25,7 +25,6 @@ import com.apexpay.repository.UserRepository;
 import com.apexpay.repository.WalletRepository;
 
 @SpringBootTest
-@SuppressWarnings("null")
 public class QRPaymentIntegrationTest {
 
     @Autowired
@@ -49,7 +48,6 @@ public class QRPaymentIntegrationTest {
     private Wallet receiverWallet;
 
     @BeforeEach
-    @SuppressWarnings("unused")
     void setUp() {
         qrCodeRepository.deleteAll();
         walletRepository.deleteAll();
@@ -101,7 +99,6 @@ public class QRPaymentIntegrationTest {
     }
 
     @Test
-    @SuppressWarnings("null")
     void executeQRPayment_ShouldTransferBalancesAndMarkQRAsUsed() {
         BigDecimal payAmt = new BigDecimal("120.0000");
 

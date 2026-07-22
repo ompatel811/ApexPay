@@ -8,7 +8,6 @@ import com.apexpay.exception.InvalidCredentialsException;
 import com.apexpay.exception.ResourceNotFoundException;
 import com.apexpay.repository.*;
 import com.apexpay.repository.admin.*;
-import com.apexpay.security.AdminPrincipal;
 import com.apexpay.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

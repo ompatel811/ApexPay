@@ -37,7 +37,7 @@ export default function DashboardPage() {
   const getProfileCompleteness = () => {
     if (!user) return 0;
     let score = 4; // fullName, username, email, mobileNumber are required
-    let max = 6;
+    const max = 6;
     if (user.profilePhoto) score++;
     if (user.dateOfBirth) score++;
     return Math.round((score / max) * 100);

@@ -24,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-@SuppressWarnings({"null", "unused"})
 public class NotificationServiceImpl implements NotificationService {
 
     private final NotificationRepository notificationRepository;

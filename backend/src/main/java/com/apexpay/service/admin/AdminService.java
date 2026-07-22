@@ -3,7 +3,6 @@ package com.apexpay.service.admin;
 import com.apexpay.dto.admin.*;
 import com.apexpay.entity.User;
 import com.apexpay.entity.Merchant;
-import com.apexpay.entity.Transaction;
 import com.apexpay.entity.Wallet;
 import com.apexpay.entity.BankAccount;
 import com.apexpay.entity.UpiId;

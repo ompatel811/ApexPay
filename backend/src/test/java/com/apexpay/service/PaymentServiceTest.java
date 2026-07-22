@@ -27,13 +27,10 @@ import com.apexpay.repository.UpiIdRepository;
 import com.apexpay.repository.UserRepository;
 import com.apexpay.repository.WalletLedgerRepository;
 import com.apexpay.repository.WalletRepository;
-import com.apexpay.service.impl.PaymentServiceImpl;
 import com.apexpay.service.impl.ValidationServiceImpl;
 import com.apexpay.service.admin.RiskEngineService;
 import com.apexpay.entity.admin.FraudAlert;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-@SuppressWarnings({"unused", "null"})
 public class PaymentServiceTest {
 
     @Mock
@@ -67,7 +64,7 @@ public class PaymentServiceTest {
     private RiskEngineService riskEngineService;
 
     private ValidationService validationService;
-    private PaymentService paymentService;
+// private PaymentService paymentService; // removed unused field
 
     private User senderUser;
     private User receiverUser;
@@ -79,11 +76,6 @@ public class PaymentServiceTest {
         MockitoAnnotations.openMocks(this);
         
         validationService = new ValidationServiceImpl(userRepository, walletRepository, walletLedgerRepository, idempotencyKeyRepository);
-        paymentService = new PaymentServiceImpl(
-                validationService, walletTransferService, transactionService, auditService,
-                idempotencyKeyRepository, walletRepository, userRepository, walletLedgerRepository, new ObjectMapper(),
-                upiIdRepository, notificationService, riskEngineService
-        );
 
         FraudAlert lowRiskAlert = new FraudAlert();
         lowRiskAlert.setAction("ALLOW");

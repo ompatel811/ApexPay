@@ -1,0 +1,15 @@
+package com.apexpay.entity.enums;
+
+public enum PaymentMessageType {
+    PAYMENT_SENT,
+    PAYMENT_RECEIVED,
+    PAYMENT_REQUEST,
+    PAYMENT_ACCEPTED,
+    PAYMENT_REJECTED,
+    PAYMENT_CANCELLED,
+    PAYMENT_FAILED,
+    PAYMENT_REFUNDED,
+    PAYMENT_LINK,
+    QR_SHARED,
+    RECEIPT_SHARED
+}

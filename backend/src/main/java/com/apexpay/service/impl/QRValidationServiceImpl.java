@@ -46,7 +46,6 @@ public class QRValidationServiceImpl implements QRValidationService {
 
     @Override
     @Transactional(readOnly = true)
-    @SuppressWarnings("null")
     public void validateQRCode(String signedJson) {
         log.info("Running validation checks on scanned QR payload.");
 

@@ -143,7 +143,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     @Transactional
-    @SuppressWarnings("null")
     public LoginResponse login(LoginRequest request, String deviceName, String browser, String operatingSystem, String ipAddress) {
         Authentication authentication;
         try {

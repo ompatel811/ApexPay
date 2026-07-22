@@ -33,7 +33,6 @@ import com.apexpay.service.UserService;
  * Service implementation for managing user information.
  */
 @Service
-@SuppressWarnings("null")
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -50,7 +49,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    @SuppressWarnings("null")
     public UserProfileResponse getProfile(UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
@@ -60,7 +58,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    @SuppressWarnings("null")
     public UserProfileResponse updateProfile(UUID userId, UpdateProfileRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));

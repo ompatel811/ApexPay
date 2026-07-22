@@ -1,0 +1,257 @@
+{
+	"info": {
+		"_postman_id": "apexpay-module16-chat-collection",
+		"name": "ApexPay Module 16 - Real-Time Chat & Messaging Platform",
+		"description": "Postman Collection for Module 16 Chat & Messaging REST APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Conversations",
+			"item": [
+				{
+					"name": "Create Conversation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"PRIVATE\",\n  \"participantUserIds\": [\"{{target_user_id}}\"]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/chat/conversations",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "conversations"]
+						}
+					}
+				},
+				{
+					"name": "Get User Conversations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/chat/conversations",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "conversations"]
+						}
+					}
+				},
+				{
+					"name": "Get Conversation by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/chat/conversations/{{conversation_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "conversations", "{{conversation_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Archive Conversation",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/chat/conversations/{{conversation_id}}/archive?archive=true",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "conversations", "{{conversation_id}}", "archive"],
+							"query": [
+								{
+									"key": "archive",
+									"value": "true"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Send Message",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"conversationId\": \"{{conversation_id}}\",\n  \"content\": \"Hello from ApexPay Chat!\",\n  \"messageType\": \"TEXT\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/chat/messages",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "messages"]
+						}
+					}
+				},
+				{
+					"name": "Get Messages",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/chat/messages/{{conversation_id}}?page=0&size=50",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "messages", "{{conversation_id}}"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "50"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Edit Message",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"content\": \"Updated message content\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/chat/messages/{{message_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "messages", "{{message_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Add Reaction",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reaction\": \"👍\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/chat/messages/{{message_id}}/reactions",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "messages", "{{message_id}}", "reactions"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Search & Block",
+			"item": [
+				{
+					"name": "Search All",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/chat/search?q=payment",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "search"],
+							"query": [
+								{
+									"key": "q",
+									"value": "payment"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Block User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"blockedUserId\": \"{{target_user_id}}\",\n  \"reason\": \"Spamming\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/chat/block",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "block"]
+						}
+					}
+				}
+			]
+		}
+	]
+}

@@ -36,7 +36,6 @@ import com.apexpay.repository.UserRepository;
 import com.apexpay.service.impl.BankAccountServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings({"null", "unused"})
 public class BankAccountServiceTest {
 
     @Mock
@@ -58,7 +57,6 @@ public class BankAccountServiceTest {
     private UUID userId;
 
     @BeforeEach
-    @SuppressWarnings("unused")
     void setUp() {
         userId = UUID.randomUUID();
         testUser = new User();
@@ -71,7 +69,6 @@ public class BankAccountServiceTest {
     }
 
     @Test
-    @SuppressWarnings("null")
     void linkBankAccount_Success() {
         LinkBankAccountRequest request = new LinkBankAccountRequest(
                 "Chase Bank",

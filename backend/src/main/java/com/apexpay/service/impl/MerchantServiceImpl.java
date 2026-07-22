@@ -31,10 +31,8 @@ public class MerchantServiceImpl implements MerchantService {
     private final MerchantEmployeeRepository merchantEmployeeRepository;
     private final UserRepository userRepository;
     private final WalletRepository walletRepository;
-    private final TransactionRepository transactionRepository;
     private final RefundRepository refundRepository;
     private final PaymentLinkRepository paymentLinkRepository;
-    private final SettlementRepository settlementRepository;
     private final AuditService auditService;
     private final NotificationService notificationService;
     private final PasswordEncoder passwordEncoder;
@@ -45,10 +43,8 @@ public class MerchantServiceImpl implements MerchantService {
                                MerchantEmployeeRepository merchantEmployeeRepository,
                                UserRepository userRepository,
                                WalletRepository walletRepository,
-                               TransactionRepository transactionRepository,
                                RefundRepository refundRepository,
                                PaymentLinkRepository paymentLinkRepository,
-                               SettlementRepository settlementRepository,
                                AuditService auditService,
                                NotificationService notificationService,
                                PasswordEncoder passwordEncoder) {
@@ -58,10 +54,8 @@ public class MerchantServiceImpl implements MerchantService {
         this.merchantEmployeeRepository = merchantEmployeeRepository;
         this.userRepository = userRepository;
         this.walletRepository = walletRepository;
-        this.transactionRepository = transactionRepository;
         this.refundRepository = refundRepository;
         this.paymentLinkRepository = paymentLinkRepository;
-        this.settlementRepository = settlementRepository;
         this.auditService = auditService;
         this.notificationService = notificationService;
         this.passwordEncoder = passwordEncoder;

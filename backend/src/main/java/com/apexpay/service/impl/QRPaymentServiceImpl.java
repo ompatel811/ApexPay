@@ -29,7 +29,6 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-@SuppressWarnings({"null", "unused"})
 public class QRPaymentServiceImpl implements QRPaymentService {
 
     private final QRScannerService qrScannerService;
@@ -81,7 +80,7 @@ public class QRPaymentServiceImpl implements QRPaymentService {
             // Parse metadata
             Map<String, Object> map = objectMapper.readValue(decodedPayload, new TypeReference<Map<String, Object>>() {});
             String userIdStr = (String) map.get("userId");
-            String walletIdStr = (String) map.get("walletId");
+
             String type = (String) map.get("type");
             String amountStr = (String) map.get("amount");
             String currency = (String) map.get("currency");

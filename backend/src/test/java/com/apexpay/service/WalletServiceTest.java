@@ -4,7 +4,6 @@ import com.apexpay.dto.AddMoneyRequest;
 import com.apexpay.dto.AddMoneyResponse;
 import com.apexpay.dto.WithdrawRequest;
 import com.apexpay.dto.WithdrawResponse;
-import com.apexpay.entity.User;
 import com.apexpay.entity.Wallet;
 import com.apexpay.entity.WalletLedger;
 import com.apexpay.entity.enums.WalletStatus;

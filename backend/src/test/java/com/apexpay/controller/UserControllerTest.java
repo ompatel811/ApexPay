@@ -29,7 +29,6 @@ import com.apexpay.dto.UserProfileResponse;
 import com.apexpay.security.UserPrincipal;
 import com.apexpay.service.UserService;
 
-@SuppressWarnings({"null", "unused"})
 class UserControllerTest {
 
     @Mock

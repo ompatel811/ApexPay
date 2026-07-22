@@ -6,8 +6,6 @@ import com.apexpay.dto.QRHistoryResponse;
 import com.apexpay.entity.QRCode;
 import com.apexpay.entity.User;
 import com.apexpay.entity.Wallet;
-import com.apexpay.entity.enums.AccountStatus;
-import com.apexpay.entity.enums.WalletStatus;
 import com.apexpay.exception.BusinessException;
 import com.apexpay.exception.ForbiddenException;
 import com.apexpay.exception.ResourceNotFoundException;

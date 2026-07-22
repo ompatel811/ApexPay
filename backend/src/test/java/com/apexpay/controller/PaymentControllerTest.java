@@ -27,7 +27,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@SuppressWarnings({"unused", "null"})
 public class PaymentControllerTest {
 
     @Autowired

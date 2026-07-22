@@ -45,7 +45,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-@SuppressWarnings("null")
 public class PaymentServiceImpl implements PaymentService {
 
     private final ValidationService validationService;
@@ -88,7 +87,6 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @SuppressWarnings("null")
     public SendMoneyResponse processTransfer(UUID senderUserId, SendMoneyRequest request) {
         String key = request.idempotencyKey();
         log.info("Processing transfer request. Sender: {}, Recipient: {}, Amount: {}, IdempotencyKey: {}",

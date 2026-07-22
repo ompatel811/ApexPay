@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-@SuppressWarnings("null")
 public class AiServiceImpl implements AiService {
 
     private final ChatHistoryRepository chatHistoryRepository;

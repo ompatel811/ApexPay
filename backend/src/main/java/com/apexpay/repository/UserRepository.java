@@ -19,4 +19,5 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     boolean existsByEmail(String email);
     boolean existsByMobileNumber(String mobileNumber);
     long countByAccountStatus(com.apexpay.entity.enums.AccountStatus accountStatus);
+    java.util.List<User> findByFullNameContainingIgnoreCaseOrUsernameContainingIgnoreCaseOrMobileNumberContaining(String name, String username, String mobile);
 }

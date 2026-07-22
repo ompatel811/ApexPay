@@ -3,27 +3,28 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter, usePathname } from 'next/navigation';
-import { 
-  LayoutDashboard, 
-  User, 
-  Wallet, 
-  Send, 
-  QrCode, 
-  History, 
-  Settings, 
-  HelpCircle, 
-  LogOut, 
-  Menu, 
-  X, 
-  Search, 
-  Bell, 
+import {
+  LayoutDashboard,
+  User,
+  Wallet,
+  Send,
+  QrCode,
+  History,
+  Settings,
+  HelpCircle,
+  LogOut,
+  Menu,
+  X,
+  Search,
+  Bell,
   CreditCard,
   ChevronDown,
   Loader2,
   Activity,
   FileText,
   Sliders,
-  Sparkles
+  Sparkles,
+  MessageSquare
 } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
@@ -110,7 +111,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <header className="sticky top-0 z-40 bg-slate-900/60 backdrop-blur-md border-b border-white/5 px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-4">
           {/* Mobile Sidebar Toggle */}
-          <button 
+          <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="p-2 -ml-2 text-slate-400 hover:text-white md:hidden transition-colors"
           >
@@ -131,9 +132,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Center Search (UI Only) */}
         <div className="hidden md:flex flex-1 max-w-md mx-8 relative">
           <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
-          <input 
-            type="text" 
-            placeholder="Search payments, transactions, settings..." 
+          <input
+            type="text"
+            placeholder="Search payments, transactions, settings..."
             className="w-full bg-slate-950 border border-white/5 rounded-xl pl-10 pr-4 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50 transition-colors"
             readOnly
           />
@@ -146,14 +147,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
           {/* User Profile Dropdown */}
           <div className="relative">
-            <button 
+            <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="flex items-center gap-2.5 p-1 px-2.5 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/5 transition-all text-left"
             >
               {user?.profilePhoto ? (
-                <img 
-                  src={`http://localhost:8080${user.profilePhoto}`} 
-                  alt="avatar" 
+                <img
+                  src={`http://localhost:8080${user.profilePhoto}`}
+                  alt="avatar"
                   className="w-7 h-7 rounded-full object-cover border border-white/10"
                 />
               ) : (
@@ -170,19 +171,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
             {dropdownOpen && (
               <>
-                <div 
-                  className="fixed inset-0 z-10" 
+                <div
+                  className="fixed inset-0 z-10"
                   onClick={() => setDropdownOpen(false)}
                 />
                 <div className="absolute right-0 mt-2 w-48 bg-slate-900 border border-white/10 rounded-2xl shadow-xl p-2 z-20 flex flex-col gap-0.5">
-                  <Link 
+                  <Link
                     href="/dashboard/profile"
                     onClick={() => setDropdownOpen(false)}
                     className="flex items-center gap-2.5 p-2.5 text-slate-300 hover:text-white rounded-xl hover:bg-white/5 transition-all text-sm"
                   >
                     <User className="w-4 h-4 text-slate-400" /> Profile Settings
                   </Link>
-                  <button 
+                  <button
                     onClick={() => {
                       setDropdownOpen(false);
                       handleLogout();
@@ -207,7 +208,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               const Icon = item.icon;
               if (item.disabled) {
                 return (
-                  <div 
+                  <div
                     key={index}
                     className="flex items-center gap-3 p-3 px-4 text-slate-600 rounded-2xl cursor-not-allowed select-none text-sm font-medium"
                     title="Available in future modules"
@@ -219,14 +220,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 );
               }
               return (
-                <Link 
+                <Link
                   key={index}
                   href={item.path}
-                  className={`flex items-center gap-3 p-3 px-4 rounded-2xl text-sm font-medium transition-all ${
-                    item.active 
-                      ? 'bg-indigo-600 text-white font-semibold shadow-lg shadow-indigo-600/15' 
+                  className={`flex items-center gap-3 p-3 px-4 rounded-2xl text-sm font-medium transition-all ${item.active
+                      ? 'bg-indigo-600 text-white font-semibold shadow-lg shadow-indigo-600/15'
                       : 'text-slate-400 hover:text-white hover:bg-white/5'
-                  }`}
+                    }`}
                 >
                   <Icon className="w-4.5 h-4.5" />
                   <span>{item.name}</span>
@@ -235,7 +235,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             })}
           </nav>
 
-          <button 
+          <button
             onClick={handleLogout}
             className="flex items-center gap-3 p-3 px-4 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-2xl text-sm font-medium transition-all text-left"
           >
@@ -247,7 +247,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Left Sidebar (Mobile overlay) */}
         {sidebarOpen && (
           <>
-            <div 
+            <div
               className="fixed inset-0 bg-black/60 z-30 md:hidden"
               onClick={() => setSidebarOpen(false)}
             />
@@ -257,7 +257,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   const Icon = item.icon;
                   if (item.disabled) {
                     return (
-                      <div 
+                      <div
                         key={index}
                         className="flex items-center gap-3 p-3 px-4 text-slate-600 rounded-2xl cursor-not-allowed select-none text-sm font-medium"
                       >
@@ -268,15 +268,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     );
                   }
                   return (
-                    <Link 
+                    <Link
                       key={index}
                       href={item.path}
                       onClick={() => setSidebarOpen(false)}
-                      className={`flex items-center gap-3 p-3 px-4 rounded-2xl text-sm font-medium transition-all ${
-                        item.active 
-                          ? 'bg-indigo-600 text-white font-semibold' 
+                      className={`flex items-center gap-3 p-3 px-4 rounded-2xl text-sm font-medium transition-all ${item.active
+                          ? 'bg-indigo-600 text-white font-semibold'
                           : 'text-slate-400 hover:text-white hover:bg-white/5'
-                      }`}
+                        }`}
                     >
                       <Icon className="w-4.5 h-4.5" />
                       <span>{item.name}</span>
@@ -285,7 +284,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 })}
               </nav>
 
-              <button 
+              <button
                 onClick={handleLogout}
                 className="flex items-center gap-3 p-3 px-4 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-2xl text-sm font-medium transition-all text-left"
               >

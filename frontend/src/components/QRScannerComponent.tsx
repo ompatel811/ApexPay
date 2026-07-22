@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useQR } from '@/hooks/useQR';
 import { Loader2, Camera, Upload, Keyboard, AlertTriangle, RefreshCw } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -26,12 +26,39 @@ export function QRScannerComponent({ onScanSuccess }: QRScannerComponentProps) {
   const [manualText, setManualText] = useState('');
   const [manualError, setManualError] = useState<string | null>(null);
 
+  const stopScanner = useCallback(() => {
+    if (scannerRef.current) {
+      try {
+        if (scannerRef.current.isScanning) {
+          scannerRef.current.stop();
+        }
+      } catch (e) {
+        // Already stopped
+      }
+      scannerRef.current = null;
+    }
+    setCameraActive(false);
+  }, []);
+
   // Cleanup scanner on unmount or tab switch
   useEffect(() => {
     return () => {
       stopScanner();
     };
-  }, [tab]);
+  }, [tab, stopScanner]);
+
+  const handleScannedPayload = useCallback(async (rawPayload: string) => {
+    try {
+      const response = await scanQRAsync({ qrString: rawPayload });
+      if (response && response.valid) {
+        onScanSuccess(response);
+      } else {
+        setCameraError('Scanned QR code is invalid or expired.');
+      }
+    } catch (err: any) {
+      setCameraError(err.response?.data?.message || 'Failed to process QR code payload.');
+    }
+  }, [scanQRAsync, onScanSuccess]);
 
   const startScanner = async () => {
     setCameraError(null);
@@ -40,7 +67,6 @@ export function QRScannerComponent({ onScanSuccess }: QRScannerComponentProps) {
     try {
       const { Html5Qrcode } = await import('html5-qrcode');
       
-      // Delay initialization slightly to ensure the element is in the DOM
       setTimeout(() => {
         const scannerElement = document.getElementById('qr-camera-element');
         if (!scannerElement) {
@@ -59,14 +85,11 @@ export function QRScannerComponent({ onScanSuccess }: QRScannerComponentProps) {
             qrbox: { width: 250, height: 250 }
           },
           async (decodedText) => {
-            // Success
             stopScanner();
             handleScannedPayload(decodedText);
           },
-          (errorMessage) => {
-            // Keep scanning, silent logging
-          }
-        ).catch((err) => {
+          () => {}
+        ).catch(() => {
           setCameraError('Webcam access was denied or is unavailable. Please check permissions.');
           setCameraActive(false);
         });
@@ -78,245 +101,194 @@ export function QRScannerComponent({ onScanSuccess }: QRScannerComponentProps) {
     }
   };
 
-  const stopScanner = () => {
-    if (scannerRef.current) {
-      try {
-        if (scannerRef.current.isScanning) {
-          scannerRef.current.stop();
-        }
-      } catch (e) {
-        // Already stopped
-      }
-      scannerRef.current = null;
-    }
-    setCameraActive(false);
-  };
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-  const handleScannedPayload = async (rawPayload: string) => {
-    try {
-      const response = await scanQRAsync({ qrString: rawPayload });
-      if (response && response.valid) {
-        onScanSuccess(response);
-      } else {
-        alert(response?.message || 'QR Validation check failed.');
-      }
-    } catch (err: any) {
-      alert(err.message || 'Verification failed. This QR code signature may be tampered or expired.');
-    }
-  };
-
-  // Drag and Drop Image Scan
-  const handleFileDrop = async (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const files = e.dataTransfer.files;
-    if (files && files.length > 0) {
-      await processImageFile(files[0]);
-    }
-  };
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      await processImageFile(files[0]);
-    }
-  };
-
-  const processImageFile = async (file: File) => {
     setFileError(null);
     setFileUploading(true);
 
     try {
-      const reader = new FileReader();
-      reader.onload = async (event) => {
-        const base64Data = event.target?.result as string;
-        if (!base64Data) {
-          setFileError('Failed to read image file.');
-          setFileUploading(false);
-          return;
-        }
+      const { Html5Qrcode } = await import('html5-qrcode');
+      const html5Qrcode = new Html5Qrcode('qr-file-dummy');
+      const decodedText = await html5Qrcode.scanFile(file, true);
+      html5Qrcode.clear();
 
-        try {
-          const response = await scanQRAsync({ qrImageBase64: base64Data });
-          if (response && response.valid) {
-            onScanSuccess(response);
-          } else {
-            setFileError(response?.message || 'Invalid QR Code Image.');
-          }
-        } catch (err: any) {
-          setFileError(err.message || 'Decoder failure. Ensure the QR is clear.');
-        } finally {
-          setFileUploading(false);
-        }
-      };
-      reader.readAsDataURL(file);
+      await handleScannedPayload(decodedText);
     } catch (err: any) {
-      setFileError('Error loading file.');
+      setFileError('Could not decode QR code from the selected image.');
+    } finally {
       setFileUploading(false);
     }
   };
 
-  // Manual payload paste submit
   const handleManualSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!manualText.trim()) return;
+
     setManualError(null);
-
-    if (!manualText.trim()) {
-      setManualError('Payload text cannot be empty.');
-      return;
-    }
-
     try {
-      const response = await scanQRAsync({ qrString: manualText.trim() });
-      if (response && response.valid) {
-        onScanSuccess(response);
-      } else {
-        setManualError(response?.message || 'Payload rejected. Verify signature integrity.');
-      }
+      await handleScannedPayload(manualText.trim());
     } catch (err: any) {
-      setManualError(err.message || 'Signature check failed. Payload might be tampered.');
+      setManualError('Failed to parse manual QR string.');
     }
   };
 
   return (
-    <div className="bg-slate-900/40 border border-white/5 backdrop-blur-xl rounded-3xl p-6 relative overflow-hidden max-w-lg mx-auto">
-      <div className="absolute -right-12 -bottom-12 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl pointer-events-none" />
-      
-      {/* Scanner Mode Tabs */}
-      <div className="flex gap-2 p-1 bg-slate-950 rounded-2xl border border-white/5 mb-6">
+    <div className="w-full max-w-xl mx-auto bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 shadow-2xl">
+      {/* Hidden container for file scanner */}
+      <div id="qr-file-dummy" className="hidden" />
+
+      {/* Tabs */}
+      <div className="flex bg-slate-950 p-1.5 rounded-2xl border border-slate-800 mb-6">
         <button
-          onClick={() => { setTab('CAMERA'); stopScanner(); }}
-          className={`flex-1 py-3 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-            tab === 'CAMERA' ? 'bg-indigo-650 text-white shadow-md' : 'text-slate-400 hover:text-white'
+          type="button"
+          onClick={() => {
+            stopScanner();
+            setTab('CAMERA');
+          }}
+          className={`flex-1 flex items-center justify-center space-x-2 py-2.5 rounded-xl text-xs font-semibold transition ${
+            tab === 'CAMERA' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30' : 'text-slate-400 hover:text-slate-200'
           }`}
         >
-          <Camera className="w-4 h-4" /> Live Camera
+          <Camera className="w-4 h-4" />
+          <span>Scan Camera</span>
         </button>
+
         <button
-          onClick={() => { setTab('FILE'); stopScanner(); }}
-          className={`flex-1 py-3 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-            tab === 'FILE' ? 'bg-indigo-650 text-white shadow-md' : 'text-slate-400 hover:text-white'
+          type="button"
+          onClick={() => {
+            stopScanner();
+            setTab('FILE');
+          }}
+          className={`flex-1 flex items-center justify-center space-x-2 py-2.5 rounded-xl text-xs font-semibold transition ${
+            tab === 'FILE' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30' : 'text-slate-400 hover:text-slate-200'
           }`}
         >
-          <Upload className="w-4 h-4" /> Upload Image
+          <Upload className="w-4 h-4" />
+          <span>Upload Image</span>
         </button>
+
         <button
-          onClick={() => { setTab('MANUAL'); stopScanner(); }}
-          className={`flex-1 py-3 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-            tab === 'MANUAL' ? 'bg-indigo-650 text-white shadow-md' : 'text-slate-400 hover:text-white'
+          type="button"
+          onClick={() => {
+            stopScanner();
+            setTab('MANUAL');
+          }}
+          className={`flex-1 flex items-center justify-center space-x-2 py-2.5 rounded-xl text-xs font-semibold transition ${
+            tab === 'MANUAL' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30' : 'text-slate-400 hover:text-slate-200'
           }`}
         >
-          <Keyboard className="w-4 h-4" /> Paste Payload
+          <Keyboard className="w-4 h-4" />
+          <span>Enter Payload</span>
         </button>
       </div>
 
-      {/* Tab Panels */}
-      <div className="min-h-72 flex flex-col items-center justify-center">
-        {tab === 'CAMERA' && (
-          <div className="w-full text-center">
-            {cameraActive ? (
-              <div className="relative border border-white/10 rounded-2xl overflow-hidden bg-black aspect-square max-w-xs mx-auto">
-                <div id="qr-camera-element" className="w-full h-full" />
-                <button
-                  onClick={stopScanner}
-                  className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-rose-650 hover:bg-rose-500 text-white text-xs font-bold px-4 py-2 rounded-xl active:scale-95 shadow-lg transition-all cursor-pointer"
-                >
-                  Stop Camera
-                </button>
-              </div>
+      {/* Tab Content 1: Camera Scanner */}
+      {tab === 'CAMERA' && (
+        <div className="flex flex-col items-center justify-center">
+          {!cameraActive ? (
+            <div className="w-full h-64 bg-slate-950 border-2 border-dashed border-slate-800 rounded-2xl flex flex-col items-center justify-center p-6 text-center">
+              <Camera className="w-12 h-12 text-slate-500 mb-3" />
+              <p className="text-sm font-medium text-slate-300 mb-4">Click below to activate camera scanner</p>
+              <button
+                type="button"
+                onClick={startScanner}
+                className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-blue-600/30 transition flex items-center space-x-2"
+              >
+                <RefreshCw className="w-4 h-4" />
+                <span>Start Camera</span>
+              </button>
+            </div>
+          ) : (
+            <div className="w-full relative">
+              <div id="qr-camera-element" className="w-full rounded-2xl overflow-hidden border border-slate-700 shadow-inner bg-black min-h-[260px]" />
+              <button
+                type="button"
+                onClick={stopScanner}
+                className="mt-4 w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl border border-slate-700 transition"
+              >
+                Stop Camera
+              </button>
+            </div>
+          )}
+
+          {cameraError && (
+            <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl flex items-center space-x-2 text-rose-400 text-xs w-full">
+              <AlertTriangle className="w-4 h-4 shrink-0" />
+              <span>{cameraError}</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Tab Content 2: File Upload */}
+      {tab === 'FILE' && (
+        <div className="flex flex-col items-center justify-center">
+          <label className="w-full h-64 bg-slate-950 border-2 border-dashed border-slate-800 hover:border-blue-500/50 rounded-2xl flex flex-col items-center justify-center p-6 text-center cursor-pointer transition">
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileUpload}
+              disabled={fileUploading}
+            />
+            {fileUploading ? (
+              <Loader2 className="w-10 h-10 text-blue-500 animate-spin mb-2" />
             ) : (
-              <div className="flex flex-col items-center py-8">
-                <div className="w-20 h-20 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-full flex items-center justify-center mb-4">
-                  <Camera className="w-8 h-8" />
-                </div>
-                <h4 className="text-sm font-bold text-white mb-2">Webcam Scan Access</h4>
-                <p className="text-slate-500 text-xs max-w-xs mx-auto mb-6">
-                  Click below to enable live scanner. Align the recipient's QR code within the framing box.
-                </p>
-                {cameraError && (
-                  <div className="flex items-center gap-1.5 text-rose-400 text-xs font-semibold max-w-xs mx-auto mb-4">
-                    <AlertTriangle className="w-4 h-4 shrink-0" /> {cameraError}
-                  </div>
-                )}
-                <button
-                  onClick={startScanner}
-                  className="bg-indigo-650 hover:bg-indigo-500 text-white font-bold px-6 py-3 rounded-xl text-xs active:scale-95 transition-all shadow-md cursor-pointer"
-                >
-                  Activate Webcam
-                </button>
-              </div>
+              <Upload className="w-12 h-12 text-slate-500 mb-3" />
             )}
-          </div>
-        )}
+            <p className="text-sm font-semibold text-slate-200">
+              {fileUploading ? 'Decoding QR image...' : 'Click to choose QR image file'}
+            </p>
+            <p className="text-xs text-slate-500 mt-1">Supports PNG, JPG, WEBP</p>
+          </label>
 
-        {tab === 'FILE' && (
-          <div className="w-full">
-            <div
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={handleFileDrop}
-              className="border-2 border-dashed border-white/5 hover:border-white/10 transition-all rounded-2xl p-8 flex flex-col items-center justify-center text-center bg-slate-950 cursor-pointer h-64 relative"
-            >
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className="absolute inset-0 opacity-0 cursor-pointer"
-              />
-              {fileUploading || isScanning ? (
-                <div className="flex flex-col items-center">
-                  <Loader2 className="w-10 h-10 text-indigo-400 animate-spin mb-4" />
-                  <p className="text-white text-xs font-semibold">Decoding QR Code...</p>
-                </div>
-              ) : (
-                <>
-                  <div className="w-16 h-16 bg-slate-900 border border-white/5 text-slate-400 rounded-2xl flex items-center justify-center mb-4">
-                    <Upload className="w-6 h-6" />
-                  </div>
-                  <h4 className="text-sm font-bold text-white mb-1">Drag & Drop Image</h4>
-                  <p className="text-xs text-slate-500 max-w-xs">
-                    Drop a PNG/JPG file containing the payment QR code here, or click to browse.
-                  </p>
-                </>
-              )}
+          {fileError && (
+            <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl flex items-center space-x-2 text-rose-400 text-xs w-full">
+              <AlertTriangle className="w-4 h-4 shrink-0" />
+              <span>{fileError}</span>
             </div>
-            {fileError && (
-              <p className="text-rose-400 text-xs text-center font-semibold mt-4">{fileError}</p>
-            )}
+          )}
+        </div>
+      )}
+
+      {/* Tab Content 3: Manual Input */}
+      {tab === 'MANUAL' && (
+        <form onSubmit={handleManualSubmit} className="space-y-4">
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 mb-1">
+              QR Code Payload / UPI URL String
+            </label>
+            <textarea
+              rows={4}
+              value={manualText}
+              onChange={(e) => setManualText(e.target.value)}
+              placeholder="e.g. apexpay://pay?vpa=merchant@apexpay&amount=100"
+              className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-500 font-mono"
+            />
           </div>
-        )}
 
-        {tab === 'MANUAL' && (
-          <form onSubmit={handleManualSubmit} className="w-full space-y-4">
-            <div>
-              <label className="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-2 block">Signed Payload String</label>
-              <textarea
-                rows={5}
-                placeholder='{"userId": "...", "walletId": "...", "type": "...", "signature": "..."}'
-                value={manualText}
-                onChange={(e) => setManualText(e.target.value)}
-                className="w-full bg-slate-950 border border-white/5 rounded-2xl p-4 text-white text-xs focus:outline-none focus:border-indigo-500 transition-all font-mono resize-none"
-              />
+          {manualError && (
+            <div className="p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl flex items-center space-x-2 text-rose-400 text-xs">
+              <AlertTriangle className="w-4 h-4 shrink-0" />
+              <span>{manualError}</span>
             </div>
+          )}
 
-            {manualError && (
-              <p className="text-rose-400 text-xs font-semibold">{manualError}</p>
+          <button
+            type="submit"
+            disabled={!manualText.trim() || isScanning}
+            className="w-full py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white text-xs font-bold rounded-xl shadow-lg shadow-blue-600/30 transition flex items-center justify-center space-x-2"
+          >
+            {isScanning ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <span>Process QR Payload</span>
             )}
-
-            <button
-              type="submit"
-              disabled={isScanning}
-              className="w-full bg-indigo-650 hover:bg-indigo-500 disabled:opacity-50 text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 active:scale-98 cursor-pointer text-xs"
-            >
-              {isScanning ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" /> Verifying Signatures...
-                </>
-              ) : (
-                'Validate Payload'
-              )}
-            </button>
-          </form>
-        )}
-      </div>
+          </button>
+        </form>
+      )}
     </div>
   );
 }

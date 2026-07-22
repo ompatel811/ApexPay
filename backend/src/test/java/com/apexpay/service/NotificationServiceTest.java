@@ -29,7 +29,6 @@ import com.apexpay.repository.NotificationRepository;
 import com.apexpay.service.impl.NotificationServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("null")
 public class NotificationServiceTest {
 
     @Mock
@@ -48,7 +47,6 @@ public class NotificationServiceTest {
     private UUID userId;
 
     @BeforeEach
-    @SuppressWarnings("unused")
     void setUp() {
         userId = UUID.randomUUID();
         testUser = new User();
@@ -59,7 +57,6 @@ public class NotificationServiceTest {
     }
 
     @Test
-    @SuppressWarnings("null")
     void sendNotification_Success() {
         when(notificationRepository.save(any(Notification.class))).thenAnswer(invocation -> {
             Notification n = invocation.getArgument(0);

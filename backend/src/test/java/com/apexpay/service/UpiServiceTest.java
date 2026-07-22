@@ -45,7 +45,6 @@ import com.apexpay.repository.UserRepository;
 import com.apexpay.service.impl.UpiServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings({"unused", "null"})
 public class UpiServiceTest {
 
     @Mock

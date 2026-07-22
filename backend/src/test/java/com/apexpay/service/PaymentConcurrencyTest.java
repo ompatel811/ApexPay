@@ -21,7 +21,6 @@ import com.apexpay.repository.UserRepository;
 import com.apexpay.repository.WalletRepository;
 
 @SpringBootTest
-@SuppressWarnings({"unused", "null"})
 public class PaymentConcurrencyTest {
 
     @Autowired

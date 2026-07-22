@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
 public class PaymentLinkServiceImpl implements PaymentLinkService {
 
     private final PaymentLinkRepository paymentLinkRepository;
-    private final MerchantRepository merchantRepository;
     private final MerchantService merchantService;
     private final WalletRepository walletRepository;
     private final TransactionService transactionService;
@@ -41,7 +40,6 @@ public class PaymentLinkServiceImpl implements PaymentLinkService {
     private final IdempotencyKeyRepository idempotencyKeyRepository;
 
     public PaymentLinkServiceImpl(PaymentLinkRepository paymentLinkRepository,
-                                  MerchantRepository merchantRepository,
                                   MerchantService merchantService,
                                   WalletRepository walletRepository,
                                   TransactionService transactionService,
@@ -49,7 +47,6 @@ public class PaymentLinkServiceImpl implements PaymentLinkService {
                                   NotificationService notificationService,
                                   IdempotencyKeyRepository idempotencyKeyRepository) {
         this.paymentLinkRepository = paymentLinkRepository;
-        this.merchantRepository = merchantRepository;
         this.merchantService = merchantService;
         this.walletRepository = walletRepository;
         this.transactionService = transactionService;

@@ -34,7 +34,6 @@ import com.apexpay.repository.UserRepository;
 import com.apexpay.service.impl.BudgetServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("null")
 public class BudgetServiceTest {
 
     @Mock
@@ -59,7 +58,6 @@ public class BudgetServiceTest {
     private UUID userId;
 
     @BeforeEach
-    @SuppressWarnings("unused")
     void setUp() {
         userId = UUID.randomUUID();
         user = new User();

@@ -57,7 +57,7 @@ public class BudgetServiceImpl implements BudgetService {
         this.auditService = auditService;
     }
 
-    @Override    @SuppressWarnings("null")    @Transactional
+    @Override    @Transactional
     public BudgetResponse createBudget(UUID userId, BudgetRequest request) {
         log.info("Creating budget for user: {}, Category: {}, Month: {}", userId, request.category(), request.month());
         

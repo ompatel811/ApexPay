@@ -51,7 +51,6 @@ public class AnalyticsServiceTest {
     private Wallet otherWallet;
 
     @BeforeEach
-    @SuppressWarnings("unused")
     void setUp() {
         userId = UUID.randomUUID();
         user = new User();

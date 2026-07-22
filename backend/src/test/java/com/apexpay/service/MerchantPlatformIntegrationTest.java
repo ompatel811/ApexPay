@@ -14,13 +14,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@SuppressWarnings("null")
 public class MerchantPlatformIntegrationTest {
 
     @Autowired
@@ -34,9 +32,6 @@ public class MerchantPlatformIntegrationTest {
 
     @Autowired
     private SettlementService settlementService;
-
-    @Autowired
-    private TeamManagementService teamManagementService;
 
     @Autowired
     private UserRepository userRepository;

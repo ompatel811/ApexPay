@@ -1,0 +1,148 @@
+{
+	"info": {
+		"_postman_id": "apexpay-module18-media-collection",
+		"name": "ApexPay Module 18 - Media & File Sharing Platform",
+		"description": "Postman Collection for Module 18 Media & File Sharing REST APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Upload Single File",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "conversationId",
+							"value": "{{conversation_id}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/api/media/upload",
+					"host": ["{{base_url}}"],
+					"path": ["api", "media", "upload"]
+				}
+			}
+		},
+		{
+			"name": "Upload Multiple Files (Batch)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "files",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "conversationId",
+							"value": "{{conversation_id}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/api/media/upload/multiple",
+					"host": ["{{base_url}}"],
+					"path": ["api", "media", "upload", "multiple"]
+				}
+			}
+		},
+		{
+			"name": "Get Media Metadata by ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/media/{{media_id}}",
+					"host": ["{{base_url}}"],
+					"path": ["api", "media", "{{media_id}}"]
+				}
+			}
+		},
+		{
+			"name": "Download Media File",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/media/download/{{media_id}}",
+					"host": ["{{base_url}}"],
+					"path": ["api", "media", "download", "{{media_id}}"]
+				}
+			}
+		},
+		{
+			"name": "Search Media Files",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/media/search?query=receipt",
+					"host": ["{{base_url}}"],
+					"path": ["api", "media", "search"],
+					"query": [
+						{
+							"key": "query",
+							"value": "receipt"
+						}
+					]
+				}
+			}
+		},
+		{
+			"name": "Get Conversation Shared Media",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/media/conversation/{{conversation_id}}",
+					"host": ["{{base_url}}"],
+					"path": ["api", "media", "conversation", "{{conversation_id}}"]
+				}
+			}
+		}
+	]
+}

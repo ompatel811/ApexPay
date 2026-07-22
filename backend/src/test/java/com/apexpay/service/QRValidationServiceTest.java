@@ -44,7 +44,6 @@ public class QRValidationServiceTest {
     private ObjectMapper objectMapper;
 
     @BeforeEach
-    @SuppressWarnings("unused")
     void setUp() {
         MockitoAnnotations.openMocks(this);
         objectMapper = new ObjectMapper();

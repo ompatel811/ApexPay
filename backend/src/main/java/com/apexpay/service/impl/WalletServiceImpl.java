@@ -1,13 +1,11 @@
 package com.apexpay.service.impl;
 
 import com.apexpay.dto.*;
-import com.apexpay.entity.User;
 import com.apexpay.entity.Wallet;
 import com.apexpay.entity.WalletLedger;
 import com.apexpay.entity.enums.WalletStatus;
 import com.apexpay.exception.BusinessException;
 import com.apexpay.exception.ResourceNotFoundException;
-import com.apexpay.repository.UserRepository;
 import com.apexpay.repository.WalletLedgerRepository;
 import com.apexpay.repository.WalletRepository;
 import com.apexpay.service.AuditService;
@@ -17,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Comparator;
@@ -33,16 +30,13 @@ public class WalletServiceImpl implements WalletService {
 
     private final WalletRepository walletRepository;
     private final WalletLedgerRepository walletLedgerRepository;
-    private final UserRepository userRepository;
     private final AuditService auditService;
 
     public WalletServiceImpl(WalletRepository walletRepository,
                              WalletLedgerRepository walletLedgerRepository,
-                             UserRepository userRepository,
                              AuditService auditService) {
         this.walletRepository = walletRepository;
         this.walletLedgerRepository = walletLedgerRepository;
-        this.userRepository = userRepository;
         this.auditService = auditService;
     }
 

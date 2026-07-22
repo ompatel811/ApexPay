@@ -38,7 +38,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-@SuppressWarnings("null")
 public class UpiServiceImpl implements UpiService {
 
     private final UpiIdRepository upiIdRepository;
@@ -68,7 +67,6 @@ public class UpiServiceImpl implements UpiService {
 
     @Override
     @Transactional
-    @SuppressWarnings("null")
     public UpiResponse createUpiId(UUID userId, CreateUpiRequest request) {
         log.info("Creating UPI ID for user: {}, handle: {}", userId, request.upiHandle());
 
@@ -121,7 +119,6 @@ public class UpiServiceImpl implements UpiService {
 
     @Override
     @Transactional
-    @SuppressWarnings("null")
     public UpiResponse setDefaultUpi(UUID upiId, UUID userId) {
         log.info("Setting UPI ID {} as primary for user {}", upiId, userId);
         UpiId upi = upiIdRepository.findById(upiId)
@@ -151,7 +148,6 @@ public class UpiServiceImpl implements UpiService {
 
     @Override
     @Transactional
-    @SuppressWarnings("null")
     public void deleteUpiId(UUID upiId, UUID userId) {
         log.info("Deleting UPI ID {} for user {}", upiId, userId);
         UpiId upi = upiIdRepository.findById(upiId)

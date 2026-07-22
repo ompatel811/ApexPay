@@ -30,7 +30,6 @@ import com.apexpay.repository.WalletRepository;
 import com.apexpay.service.impl.AuthenticationServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings({"null", "unused"})
 class AuthenticationServiceTest {
 
     @Mock
@@ -52,7 +51,6 @@ class AuthenticationServiceTest {
     private AuthenticationServiceImpl authenticationService;
 
     @BeforeEach
-    @SuppressWarnings("unused")
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
